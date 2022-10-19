@@ -105,7 +105,8 @@ router.get('/list', (req, res) => {
     // }) 
 })
 
-// 按price过滤物资列表 (price)
+// 按price过滤物资列表 (price) 地址栏显示参数和值
+http://localhost:3000/api/search?price=x
 router.get('/search', (req,res) => {
     let price = req.query.price
 
@@ -146,6 +147,20 @@ router.get('/search', (req,res) => {
     // }) 
 
     // ?自带了''
+    let sql = `select * from goods where price > ?`
+    let arr = [price]
+    conMysql(sql, arr, result => {
+        res.send({
+            info: `超过${price}的物资信息`,
+            result
+        })
+    }) 
+})
+
+// 按price过滤物资列表 (price) 地址栏只显示值
+http://localhost:3000/api/search/x
+router.get('/search/:price', (req,res) => {
+    let price = req.params.price
     let sql = `select * from goods where price > ?`
     let arr = [price]
     conMysql(sql, arr, result => {
