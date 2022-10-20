@@ -106,9 +106,13 @@ router.get('/list', (req, res) => {
 })
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
+// 浏览器中只能用req.query
 http://localhost:3000/api/search?price=x
 router.get('/search', (req,res) => {
     let price = req.query.price
+    // console.log(req.params)
+    // console.log(req.body)
+    // console.log(req.query)
 
     // 练习代码
     //#region 
@@ -158,8 +162,14 @@ router.get('/search', (req,res) => {
 })
 
 // 按price过滤物资列表 (price) 地址栏只显示值
+// 浏览器中只能用req.params
 http://localhost:3000/api/search/x
 router.get('/search/:price', (req,res) => {
+    // // 浏览器中只能用params
+    console.log(req.params)
+    console.log(req.body)
+    console.log(req.query)
+    
     let price = req.params.price
     let sql = `select * from goods where price > ?`
     let arr = [price]
@@ -187,43 +197,8 @@ router.get('/search/:price', (req,res) => {
 // })
 // #endregion
 
-// 增加物资 (name, price, number)
-router.post('/add', (req, res) => {
-    let name = req.body.name
-    let price = req.body.price
-    let number = req.body.number
-
-    // let sql = `insert into goods values(null, '${name}', '${price}', '${number}')`
-    // conMysql(sql, result => {
-    //     res.send({
-    //         info: '插入的物资信息',
-    //         result
-    //     })
-    // }) 
-
-    let sql = `insert into goods values(null, ?, ?, ?)`
-    let arr = [name, price, number]
-    conMysql(sql, arr, result => {
-        res.send({
-            info: '插入的物资信息',
-            result
-        })
-    })     
-    // 练习代码
-    //#region 
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('插入错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '插入语句信息',
-    //         result
-    //     })
-    // }) 
-    //#endregion
-})
-
+/* Module 登录注册模块 
+-------------------------------------------------*/
 // 登录 (username, password)
 router.get('/login', (req, res) => {
     let username = req.query.username
@@ -240,6 +215,7 @@ router.get('/login', (req, res) => {
     let sql = `select * from users where username= ? and password= ?`
     let arr = [username, password]
     conMysql(sql, arr, result => {
+        console.log(result);
         res.send({
             info: '登录信息',
             result
@@ -354,7 +330,7 @@ router.post('/register', (req, res) => {
     sql = `insert ignore into users values (null, ?, ?, ?)`
     let arr = [username, password, power]
     conMysql(sql, arr, result => {
-        console.log(result)
+        // console.log(result)
         // result.affectedRows表示影响的行数
         if (result.affectedRows > 0) {
             res.send({
@@ -370,6 +346,107 @@ router.post('/register', (req, res) => {
             })
         }
     })
+})
+
+// 增加物资 (name, price, number)
+// 浏览器中只能用req.body
+router.post('/add', (req, res) => {
+    // 浏览器中只能用body
+    // console.log(req.body)
+    // console.log(req.params)
+    // console.log(req.query)
+
+    let name = req.body.name
+    let price = req.body.price
+    let number = req.body.number
+
+    // let sql = `insert into goods values(null, '${name}', '${price}', '${number}')`
+    // conMysql(sql, result => {
+    //     res.send({
+    //         info: '插入的物资信息',
+    //         result
+    //     })
+    // }) 
+
+    let sql = `insert into goods values(null, ?, ?, ?)`
+    let arr = [name, price, number]
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '插入的物资信息',
+            // affectedRows为一说明影响了一行
+            status: result.affectedRows,
+            result
+        })
+    })     
+    // 练习代码
+    //#region 
+    // con.query(sql, (error, result) => {
+    //     if (error) {
+    //         console.log('插入错误')
+    //         return
+    //     }
+    //     res.send({
+    //         info: '插入语句信息',
+    //         result
+    //     })
+    // }) 
+    //#endregion
+})
+
+// 根据名字来修改物资数量
+// 浏览器中只能用req.body
+router.put('/update', (req, res) => {
+    // 在postman body里面写数据能接受到,但是在浏览器中只能用这个
+    // console.log(req.body)
+    // // 不能接受
+    // console.log(req.params)
+    // // postman在地址栏配参数和值能接受到
+    // console.log(req.query);
+
+    let name = req.body.name
+    let number = req.body.number
+
+    // console.log(name);
+    // console.log(number);
+
+    let sql = `update goods set number = ? where name = ?`
+    let arr = [number, name]
+
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '修改物资信息',
+            // affectedRows为一说明影响了一行
+            status: result.affectedRows,
+            result
+        })
+    })   
+})
+
+
+// 根据名字删除物资
+// 浏览器中只能用req.body
+router.delete('/delete', (req, res) => {
+    // postman里body能接受 浏览器中只能用这个
+    // console.log(req.body)
+    // 不能接受
+    // console.log(req.params)
+    // 地址栏可以接受
+    // console.log(req.query)
+    
+    let name = req.body.name
+
+    let sql = `delete from goods where name = ?`
+
+    let arr = [name]
+
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '删除物资信息',
+            // affectedRows为一说明影响了一行
+            status: result.affectedRows,
+            result
+        })
+    })  
 })
 
 // 封装了访问数据库的操作 (已模块化, db.js)

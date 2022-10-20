@@ -16,7 +16,7 @@ const app = express()
 app.use(cors())
 
 // 如果没设置，可以用过postman将信息加入到数据库，但浏览器发送的信息是json格式的，
-// 如果没有对数据进行过滤，那么写了信息的加入到数据库中显示是underfined
+// 如果没有对数据进行过滤，那么写了信息的加入到数据库中显示是undefined
 // 没写的就是空的
 // 将json格式的数据转化为对象格式
 app.use(express.json())
