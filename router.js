@@ -43,6 +43,9 @@ const router = express.Router()
 //     }    
 // })
 
+router.get('/test', (req, res) => {
+    res.send('zhe shi test')
+})
 router.get('/', (req, res) => {
     let username = req.query.username
     let password = req.query.password
@@ -74,7 +77,7 @@ router.get('/', (req, res) => {
 // #endregion
 
 // 获取物资信息
-router.get('/list', (req, res) => {
+router.get('/echartsList', (req, res) => {
 
     // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
     //#region 
@@ -83,8 +86,70 @@ router.get('/list', (req, res) => {
     
     // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
     // 但是用到了这个函数的都要改
+    let power = req.query.power
+    let sql = ''
+    if (power == 1) {
+        sql = 'select * from manage_goods order by number limit 10'
+    } else if (power == 2) {
+        sql = 'select * from provide_goods order by number limit 10'
+    } else {
+        sql = 'select * from buyer_goods order by number limit 10'
+    }
     let arr = []
-    let sql = 'select * from goods'
+    // let sql = `select * from goods where price > ?`
+    // let arr = [price]
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '获取物资信息',
+            result
+        })
+    }) 
+
+    // 练习代码
+    // con.query(sql, (error, result) => {
+    //     if (error) {
+    //         console.log('连接错误')
+    //         return
+    //     }
+    //     res.send({
+    //         info: '物资信息',
+    //         result
+    //     })      
+    // }) 
+})
+
+// 获取热销榜单数据
+router.get('/hotList', (req, res) => {
+    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
+    //#region 
+    // res.header("Access-Control-Allow-Origin","*")
+    //#endregion
+    
+    // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
+    // 但是用到了这个函数的都要改
+    // let power = req.query.power
+    // let sql = ''
+    // if (power === 1) {
+    //     sql = 'select * from manage_goods'
+    // } else if (power === 2) {
+    //     sql = 'select * from provide_goods'
+    // } else {
+    //     sql = 'select * from buyer_goods'
+    // }
+    // let arr = []
+
+    let power = req.query.power
+    // console.log('req', req.query)
+    let sql = ''
+    if (power == 1) {
+        sql ='select * from manage_goods order by number limit 6'
+    } else if (power == 2) {
+        sql = 'select * from provide_goods order by number limit 6'
+    } else {
+        sql = 'select * from buyer_goods order by number limit 6'
+    }
+    let arr = []
+    // let sql = 'select * from goods order by number limit 6'
     conMysql(sql, arr, result => {
         res.send({
             info: '获取物资信息',
@@ -109,7 +174,7 @@ router.get('/list', (req, res) => {
 // 浏览器中只能用req.query
 http://localhost:3000/api/search?price=x
 router.get('/search', (req,res) => {
-    let price = req.query.price
+    let price = req.query.price ? eq.query.price : 20
     // console.log(req.params)
     // console.log(req.body)
     // console.log(req.query)
