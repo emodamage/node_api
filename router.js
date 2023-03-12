@@ -76,7 +76,7 @@ router.get('/', (req, res) => {
 // })
 // #endregion
 
-// 获取物资信息
+// 获取echarts物资信息
 router.get('/echartsList', (req, res) => {
 
     // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
@@ -150,6 +150,56 @@ router.get('/hotList', (req, res) => {
     }
     let arr = []
     // let sql = 'select * from goods order by number limit 6'
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '获取物资信息',
+            result
+        })
+    }) 
+
+    // 练习代码
+    // con.query(sql, (error, result) => {
+    //     if (error) {
+    //         console.log('连接错误')
+    //         return
+    //     }
+    //     res.send({
+    //         info: '物资信息',
+    //         result
+    //     })      
+    // }) 
+})
+
+// 获取echarts物资信息
+router.get('/goodsList', (req, res) => {
+
+    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
+    //#region 
+    // res.header("Access-Control-Allow-Origin","*")
+    //#endregion
+    
+    // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
+    // 但是用到了这个函数的都要改
+    let power = req.query.power
+    let currentPage = req.query.currentPage ? req.query.currentPage : 1
+    let size = req.query.size ? req.query.size : 6
+    let sql = ''
+    currentPage = Number(currentPage)
+    size = Number(size)
+    console.log(req.query)
+    console.log(currentPage)
+    console.log(size)
+    if (power == 1) {
+        // sql = `select * from manage_goods limit ${currentPage},${size}`
+        sql = `select * from manage_goods limit ?,?`
+    } else if (power == 2) {
+        sql = `select * from provide_goods limit ?,?`
+    } else {
+        sql =`'select * from buyer_goods limit ?,?`
+    }
+    let arr = [currentPage, size]
+    // let sql = `select * from goods where price > ?`
+    // let arr = [price]
     conMysql(sql, arr, result => {
         res.send({
             info: '获取物资信息',

@@ -24,10 +24,14 @@ const con = mysql.createConnection({
  * @param {*} callback 回调函数, 返回执行结果
  */
 function conMysql (sql, arr, callback) {
+    // console.log('arr1', arr)
     con.query(sql, arr, (error, result) => {
         if (error) {
+            console.log('error', error)
             return
         }
+        // console.log('arr2', arr)
+        // console.log('result', result)
         // res.send({
         //   info: '插入语句信息',
         //   result
