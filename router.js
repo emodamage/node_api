@@ -186,9 +186,9 @@ router.get('/goodsList', (req, res) => {
     let sql = ''
     currentPage = Number(currentPage)
     size = Number(size)
-    console.log(req.query)
-    console.log(currentPage)
-    console.log(size)
+    // console.log(req.query)
+    // console.log(currentPage)
+    // console.log(size)
     if (power == 1) {
         // sql = `select * from manage_goods limit ${currentPage},${size}`
         sql = `select * from manage_goods limit ?,?`
@@ -218,6 +218,76 @@ router.get('/goodsList', (req, res) => {
     //         result
     //     })      
     // }) 
+})
+
+router.post('/addGoods', (req, res) => {
+    // 浏览器中只能用body
+    // console.log(req.body)
+    // console.log(req.params)
+    // console.log(req.query)
+    let power = req.body.power
+    let name = req.body.form.goods_name
+    let price = req.body.form.goods_price
+    price = Number(price)
+    let number = req.body.form.goods_number
+    let place = req.body.form.goods_place
+    let manufacturers = req.body.form.goods_manufacturers
+    let desc = req.body.form.goods_desc
+    // let price = req.body.price
+    // let number = req.body.number
+
+    // let sql = `insert into goods values(null, '${name}', '${price}', '${number}')`
+    // conMysql(sql, result => {
+    //     res.send({
+    //         info: '插入的物资信息',
+    //         result
+    //     })
+    // }) 
+
+    let sql = ``
+    if (power == 1) {
+        sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?)`
+    } else if (power == 2) {
+        sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?)`
+    } else {
+        sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?)`
+    }
+    let arr = [name, price, number, place, manufacturers, desc]
+    conMysql(sql, arr, result => {
+        // res.send({
+        //     info: '插入的物资信息',
+        //     // affectedRows为一说明影响了一行
+        //     status: result.affectedRows,
+        //     result
+        // })
+        if (result.affectedRows > 0) {
+            res.send({
+                info: '注册插入的物资信息成功',
+                status: 1,
+                result
+            })
+        }
+        else{
+            console.log('注册插入错误')
+            res.send({
+                info: '用户名已重复，请重新输入',
+                status: 0
+            })
+        }
+    })     
+    // 练习代码
+    //#region 
+    // con.query(sql, (error, result) => {
+    //     if (error) {
+    //         console.log('插入错误')
+    //         return
+    //     }
+    //     res.send({
+    //         info: '插入语句信息',
+    //         result
+    //     })
+    // }) 
+    //#endregion
 })
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
@@ -363,6 +433,11 @@ router.post('/register', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     let power = req.body.power
+
+    let form = req.body.form
+    console.log('query', req.query)
+    console.log('body', req.body)
+    console.log('params', req.params)
     // console.log(req.body)
 
     // 解析post请求中body的x-www-form-urlencoded格式 
