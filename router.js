@@ -106,7 +106,7 @@ router.get('/hotList', (req, res) => {
 
 // 获取物资信息
 router.get('/goodsList', (req, res) => {
-
+    console.log('/goodList')
     // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
     //#region 
     // res.header("Access-Control-Allow-Origin","*")
@@ -115,7 +115,7 @@ router.get('/goodsList', (req, res) => {
     // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
     // 但是用到了这个函数的都要改
     let power = req.query.power
-    let currentPage = req.query.currentPage ? req.query.currentPage : 1
+    let currentPage = req.query.currentPage ? req.query.currentPage : 0
     let size = req.query.size ? req.query.size : 6
     let sql = ''
     currentPage = Number(currentPage)
@@ -129,7 +129,7 @@ router.get('/goodsList', (req, res) => {
     } else if (power == 2) {
         sql = `select * from provide_goods limit ?,?`
     } else {
-        sql =`'select * from buyer_goods limit ?,?`
+        sql =`select * from buyer_goods limit ?,?`
     }
     let arr = [currentPage, size]
     // let sql = `select * from goods where price > ?`
@@ -160,16 +160,22 @@ router.post('/addGoods', (req, res) => {
     // console.log(req.body)
     // console.log(req.params)
     // console.log(req.query)
-
+    console.log('/addGoods')
     let power = req.body.power
-    let name = req.body.form.goods_name
-    let price = req.body.form.goods_price
+    let name = req.body.form.name
+    let price = req.body.form.price
     price = Number(price)
-    let number = req.body.form.goods_number
-    let place = req.body.form.goods_place
-    let manufacturers = req.body.form.goods_manufacturers
-    let desc = req.body.form.goods_desc
-
+    let number = req.body.form.number
+    let place = req.body.form.place
+    let manufacturers = req.body.form.manufacturers
+    let desc = req.body.form.desc
+    // console.log(power)
+    // console.log(name)
+    // console.log(price)
+    // console.log(number)
+    // console.log(place)
+    // console.log(manufacturers)
+    // console.log(desc)
     let sql = ``
     if (power == 1) {
         sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?)`
@@ -201,22 +207,24 @@ router.post('/addGoods', (req, res) => {
 // 根据名字修改物资信息
 router.put('/updateGoods', (req, res) => {
     let power = req.body.power
-    let price = req.body.form.goods_price
+    let name = req.body.form.name
+    let price = req.body.form.price
     price = Number(price)
-    let number = req.body.form.goods_number
-    let place = req.body.form.goods_place
-    let manufacturers = req.body.form.goods_manufacturers
-    let desc = req.body.form.goods_desc
+    let number = req.body.form.number
+    let place = req.body.form.place
+    let manufacturers = req.body.form.manufacturers
+    let descs = req.body.form.descs
 
     let sql = ''
     if (power == 1) {
-        sql =  `update manage_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+        console.log(111)
+        sql =  `update manage_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
     } else if (power == 2) {
-        sql =  `update provide_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+        sql =  `update provide_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
     } else {
-        sql =  `update buyer_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+        sql =  `update buyer_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
     }
-    let arr = [price, number, place, manufacturers, desc]
+    let arr = [price, number, place, manufacturers, descs, name]
 
     conMysql(sql, arr, result => {
         res.send({
@@ -231,7 +239,7 @@ router.put('/updateGoods', (req, res) => {
 // 根据名字删除物资
 router.delete('/deleteGoods', (req, res) => {
     let power = req.body.power
-    let name = req.body.form.goods_name
+    let name = req.body.form.name
     
     let sql =''
     if (power == 1) {

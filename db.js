@@ -24,6 +24,7 @@ const con = mysql.createConnection({
  * @param {*} callback 回调函数, 返回执行结果
  */
 function conMysql (sql, arr, callback) {
+    // console.log('sql', sql)
     // console.log('arr1', arr)
     con.query(sql, arr, (error, result) => {
         if (error) {
