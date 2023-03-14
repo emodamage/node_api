@@ -3,23 +3,6 @@ const express = require('express')
 // 导入数据库相关的信息
 const {conMysql} = require('./db')
 
-// 练习代码
-//#region 
-//#region 
-// const mysql = require('mysql')
-// 导入data文件 (测试的数据)
-// const data = require('./test/data')
-//#endregion
-
-// // 连接数据库的信息 (已简写, db.js)
-// const con = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'root123',
-//     database: '2019',
-//     port: '3306'
-// })
-//#endregion
 
 const router = express.Router()
 
@@ -78,16 +61,9 @@ router.get('/', (req, res) => {
 
 // 获取echarts物资信息
 router.get('/echartsList', (req, res) => {
-
-    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
-    //#region 
-    // res.header("Access-Control-Allow-Origin","*")
-    //#endregion
-    
-    // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
-    // 但是用到了这个函数的都要改
     let power = req.query.power
     let sql = ''
+
     if (power == 1) {
         sql = 'select * from manage_goods order by number limit 10'
     } else if (power == 2) {
@@ -96,51 +72,21 @@ router.get('/echartsList', (req, res) => {
         sql = 'select * from buyer_goods order by number limit 10'
     }
     let arr = []
-    // let sql = `select * from goods where price > ?`
-    // let arr = [price]
+
     conMysql(sql, arr, result => {
         res.send({
             info: '获取物资信息',
             result
         })
     }) 
-
-    // 练习代码
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('连接错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '物资信息',
-    //         result
-    //     })      
-    // }) 
 })
 
 // 获取热销榜单数据
 router.get('/hotList', (req, res) => {
-    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
-    //#region 
-    // res.header("Access-Control-Allow-Origin","*")
-    //#endregion
-    
-    // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
-    // 但是用到了这个函数的都要改
-    // let power = req.query.power
-    // let sql = ''
-    // if (power === 1) {
-    //     sql = 'select * from manage_goods'
-    // } else if (power === 2) {
-    //     sql = 'select * from provide_goods'
-    // } else {
-    //     sql = 'select * from buyer_goods'
-    // }
-    // let arr = []
 
     let power = req.query.power
-    // console.log('req', req.query)
     let sql = ''
+
     if (power == 1) {
         sql ='select * from manage_goods order by number limit 6'
     } else if (power == 2) {
@@ -149,28 +95,16 @@ router.get('/hotList', (req, res) => {
         sql = 'select * from buyer_goods order by number limit 6'
     }
     let arr = []
-    // let sql = 'select * from goods order by number limit 6'
+
     conMysql(sql, arr, result => {
         res.send({
             info: '获取物资信息',
             result
         })
     }) 
-
-    // 练习代码
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('连接错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '物资信息',
-    //         result
-    //     })      
-    // }) 
 })
 
-// 获取echarts物资信息
+// 获取物资信息
 router.get('/goodsList', (req, res) => {
 
     // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
@@ -220,11 +154,13 @@ router.get('/goodsList', (req, res) => {
     // }) 
 })
 
+// 增加物资
 router.post('/addGoods', (req, res) => {
     // 浏览器中只能用body
     // console.log(req.body)
     // console.log(req.params)
     // console.log(req.query)
+
     let power = req.body.power
     let name = req.body.form.goods_name
     let price = req.body.form.goods_price
@@ -233,16 +169,6 @@ router.post('/addGoods', (req, res) => {
     let place = req.body.form.goods_place
     let manufacturers = req.body.form.goods_manufacturers
     let desc = req.body.form.goods_desc
-    // let price = req.body.price
-    // let number = req.body.number
-
-    // let sql = `insert into goods values(null, '${name}', '${price}', '${number}')`
-    // conMysql(sql, result => {
-    //     res.send({
-    //         info: '插入的物资信息',
-    //         result
-    //     })
-    // }) 
 
     let sql = ``
     if (power == 1) {
@@ -253,42 +179,80 @@ router.post('/addGoods', (req, res) => {
         sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?)`
     }
     let arr = [name, price, number, place, manufacturers, desc]
+
     conMysql(sql, arr, result => {
-        // res.send({
-        //     info: '插入的物资信息',
-        //     // affectedRows为一说明影响了一行
-        //     status: result.affectedRows,
-        //     result
-        // })
         if (result.affectedRows > 0) {
             res.send({
                 info: '注册插入的物资信息成功',
-                status: 1,
+                status: result.affectedRows,
                 result
             })
         }
         else{
             console.log('注册插入错误')
             res.send({
-                info: '用户名已重复，请重新输入',
+                info: '物资名已重复，请重新输入',
                 status: 0
             })
         }
     })     
-    // 练习代码
-    //#region 
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('插入错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '插入语句信息',
-    //         result
-    //     })
-    // }) 
-    //#endregion
 })
+
+// 根据名字修改物资信息
+router.put('/updateGoods', (req, res) => {
+    let power = req.body.power
+    let price = req.body.form.goods_price
+    price = Number(price)
+    let number = req.body.form.goods_number
+    let place = req.body.form.goods_place
+    let manufacturers = req.body.form.goods_manufacturers
+    let desc = req.body.form.goods_desc
+
+    let sql = ''
+    if (power == 1) {
+        sql =  `update manage_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+    } else if (power == 2) {
+        sql =  `update provide_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+    } else {
+        sql =  `update buyer_goods set price = ? and number = ? and place = ? and manufacturers = ? and desc = ? where name = ?`
+    }
+    let arr = [price, number, place, manufacturers, desc]
+
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '修改了物资信息',
+            // affectedRows为一说明影响了一行
+            status: result.affectedRows,
+            result
+        })
+    })   
+})
+
+// 根据名字删除物资
+router.delete('/deleteGoods', (req, res) => {
+    let power = req.body.power
+    let name = req.body.form.goods_name
+    
+    let sql =''
+    if (power == 1) {
+        sql = `delete from manage_goods where name = ?`
+    } else if (power == 2) {
+        sql = `delete from provide_goods where name = ?`
+    } else {
+        sql = `delete from buyer_goods where name = ?`
+    }
+    let arr = [name]
+
+    conMysql(sql, arr, result => {
+        res.send({
+            info: '删除了物资信息',
+            // affectedRows为一说明影响了一行
+            status: result.affectedRows,
+            result
+        })
+    })  
+})
+
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
 // 浏览器中只能用req.query
