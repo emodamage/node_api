@@ -39,8 +39,8 @@ app.use(express.urlencoded({
 
 // 必须在端口号后写/api
 // 通过 http://localhost:3000/api/images/test.png 访问
-app.use('/api',express.static('assets'))
-
+app.use('/api',express.static('public'))
+// http://localhost:3000/api/image/_60.jpg
 
 //先引入静态文件，再引入路由
 //#region 

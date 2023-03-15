@@ -31,7 +31,7 @@ function conMysql (sql, arr, callback) {
             console.log('error', error)
             return
         }
-        // console.log('arr2', arr)
+        // console.log('sql', sql)
         // console.log('result', result)
         // res.send({
         //   info: '插入语句信息',

@@ -3,6 +3,9 @@ const express = require('express')
 // 导入数据库相关的信息
 const {conMysql} = require('./db')
 
+const fs = require('fs')
+const multer = require('multer')
+// const path = require('path')
 
 const router = express.Router()
 
@@ -25,10 +28,83 @@ const router = express.Router()
 //         next()
 //     }    
 // })
+// router.post('/test', multer({
+//     dest: 'public/image',
+// }).array('file', 1),
+// function (req, res, next) {
 
-router.get('/test', (req, res) => {
-    res.send('zhe shi test')
+//     console.log('file1', req.body.file)
+//     let file = req.body.file
+//     let path = 'public/image/' + Date.now().toString() + '_' + file.originalname
+//     // 覆盖
+//     fs.renameSync('./public/image/' + file.filename, path);
+
+//     console.log('file', file)
+//     let fileInfo = {}
+//     fileInfo.type = file.mimetype
+//     fileInfo.name = file.originalname
+//     fileInfo.size = file.size
+//     fileInfo.path = path
+//     res.json({
+//         code: 200,
+//         msg: 'ok',
+//         data: fileInfo
+//     })
+// })
+
+// router.post('/test1', multer({
+//     dest: 'public/image',
+// }).array('file', 1),
+// function (req, res, next) {
+
+//     // console.log('file1', req.body.file)
+//     let file = req.files[0]
+//     let path = 'public/image/' + Date.now().toString() + '_' + file.originalname
+//     // 覆盖
+//     fs.renameSync('./public/image/' + file.filename, path);
+
+//     console.log('file', file)
+//     let fileInfo = {}
+//     fileInfo.type = file.mimetype
+//     fileInfo.name = file.originalname
+//     fileInfo.size = file.size
+//     fileInfo.path = path
+//     res.json({
+//         code: 200,
+//         msg: 'ok',
+//         data: fileInfo
+//     })
+// })
+
+// 头像上传
+router.post('/imgUpload', multer({
+    dest: 'public/image',
+}).array('file', 1),
+function (req, res, next) {
+
+    let username = req.query.username
+    let file = req.files[0]
+    let path = 'public/image/' + username + '_' + file.originalname
+    // 覆盖
+    fs.renameSync('./public/image/' + file.filename, path);
+
+    console.log('file', file)
+    let fullPath = __dirname+ '/' + path
+    fullPath = fullPath.replace(/\//g, '\\')
+    console.log('fullPath', fullPath)
+    let fileInfo = {}
+    fileInfo.type = file.mimetype
+    fileInfo.name = file.originalname
+    fileInfo.size = file.size
+    fileInfo.path = path
+    fileInfo.fullPath = fullPath
+    res.json({
+        code: 200,
+        msg: 'ok',
+        data: fileInfo
+    })
 })
+
 router.get('/', (req, res) => {
     let username = req.query.username
     let password = req.query.password
@@ -65,11 +141,11 @@ router.get('/echartsList', (req, res) => {
     let sql = ''
 
     if (power == 1) {
-        sql = 'select * from manage_goods order by number limit 10'
+        sql = 'select * from manage_goods order by rand() limit 10'
     } else if (power == 2) {
-        sql = 'select * from provide_goods order by number limit 10'
+        sql = 'select * from provide_goods order by rand() limit 10'
     } else {
-        sql = 'select * from buyer_goods order by number limit 10'
+        sql = 'select * from buyer_goods order by rand() limit 10'
     }
     let arr = []
 
@@ -116,8 +192,9 @@ router.get('/goodsList', (req, res) => {
     // 但是用到了这个函数的都要改
     let power = req.query.power
     let currentPage = req.query.currentPage ? req.query.currentPage : 0
-    let size = req.query.size ? req.query.size : 6
-    let sql = ''
+    let size = req.query.size ? req.query.size : 8
+    currentPage = currentPage * size
+    let sql1 = ''
     currentPage = Number(currentPage)
     size = Number(size)
     // console.log(req.query)
@@ -125,21 +202,38 @@ router.get('/goodsList', (req, res) => {
     // console.log(size)
     if (power == 1) {
         // sql = `select * from manage_goods limit ${currentPage},${size}`
-        sql = `select * from manage_goods limit ?,?`
+        sql1 = `select * from manage_goods order by time desc limit ?,?`
     } else if (power == 2) {
-        sql = `select * from provide_goods limit ?,?`
+        sql1 = `select * from provide_goods order by time desc limit ?,?`
     } else {
-        sql =`select * from buyer_goods limit ?,?`
+        sql1 =`select * from buyer_goods order by id time limit ?,?`
     }
-    let arr = [currentPage, size]
+    let arr1 = [currentPage, size]
+
+    let sql2 = ''
+    if (power == 1) {
+        sql2 = `select count(*) as count from manage_goods`
+    } else if (power == 2) {
+        sql2 = `select * as count from provide_goods`
+    } else {
+        sql2 =`select * count from buyer_goods`
+    }
+    let arr2 = []
     // let sql = `select * from goods where price > ?`
     // let arr = [price]
-    conMysql(sql, arr, result => {
+    let result = ''
+    conMysql(sql1, arr1, result1 => {
+        result = result1
+    })
+    conMysql(sql2, arr2, result2 => {
+        console.log(result2[0].count)
         res.send({
             info: '获取物资信息',
-            result
+            result,
+            count: result2[0].count
+
         })
-    }) 
+    })  
 
     // 练习代码
     // con.query(sql, (error, result) => {
@@ -168,7 +262,9 @@ router.post('/addGoods', (req, res) => {
     let number = req.body.form.number
     let place = req.body.form.place
     let manufacturers = req.body.form.manufacturers
-    let desc = req.body.form.desc
+    let descs = req.body.form.descs
+    let time = req.body.form.time
+    let isDisinfect = req.body.form.isDisinfect
     // console.log(power)
     // console.log(name)
     // console.log(price)
@@ -178,13 +274,13 @@ router.post('/addGoods', (req, res) => {
     // console.log(desc)
     let sql = ``
     if (power == 1) {
-        sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?)`
+        sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
     } else if (power == 2) {
-        sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?)`
+        sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
     } else {
-        sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?)`
+        sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
     }
-    let arr = [name, price, number, place, manufacturers, desc]
+    let arr = [name, price, number, place, manufacturers, descs, time ,isDisinfect]
 
     conMysql(sql, arr, result => {
         if (result.affectedRows > 0) {
@@ -261,6 +357,56 @@ router.delete('/deleteGoods', (req, res) => {
     })  
 })
 
+// 获取物资信息
+router.get('/searchGoods', (req, res) => {
+    console.log('/searchGoods')
+
+    let power = req.query.power
+    let searchValue = req.query.searchValue
+    let currentPage = req.query.currentPage ? req.query.currentPage : 0
+    let size = req.query.size ? req.query.size : 8
+    currentPage = currentPage * size
+    currentPage = Number(currentPage)
+    size = Number(size)
+    searchValue = `%${String(searchValue)}%`
+    // console.log('power', power)
+    // console.log('searchValue', searchValue)
+    // console.log('power', power)
+    let sql1 = ''
+    if (power == 1) {
+        sql1 = `select * from manage_goods where name like ? ORDER BY time desc limit ?, ?`
+        // select * from manage_goods where name like '%?%' ORDER BY time desc
+    } else if (power == 2) {
+        sql1 = `select * from provide_goods where name like ? ORDER BY time desc limit ?, ?`
+    } else {
+        sql1 =`select * from buyer_goods where name like ? ORDER BY time desc limit ?, ?`
+    }
+    let arr1 = [searchValue, currentPage, size]
+
+
+    let sql2 = ''
+    if (power == 1) {
+        sql2 = `select count(*) as count from manage_goods where name like ?`
+        // select * from manage_goods where name like '%?%' ORDER BY time desc
+    } else if (power == 2) {
+        sql2 = `select count(*) as count from provide_goods where name like ?`
+    } else {
+        sql2 =`select count(*) as count from buyer_goods where name like ?`
+    }
+    let arr2 = [searchValue]
+
+    let result = ''
+    conMysql(sql1, arr1, result1 => {
+        result = result1
+    }) 
+    conMysql(sql2, arr2, result2 => {
+        res.send({
+            info: '获取物资信息',
+            result,
+            count: result2[0].count
+        })
+    }) 
+})
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
 // 浏览器中只能用req.query
