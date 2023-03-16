@@ -76,36 +76,7 @@ const router = express.Router()
 //     })
 // })
 
-// 头像上传
-router.post('/imgUpload', multer({
-    dest: 'public/image',
-}).array('file', 1),
-function (req, res, next) {
-    const { username} = req.body
-    console.log('body',req.body['username'])
-    // body [Object: null prototype] { test: 'test1111' }
 
-    let file = req.files[0]
-    let path = 'public/image/' + username + '.' + file.originalname.split('.')[1]
-    // 覆盖
-    fs.renameSync('./public/image/' + file.filename, path);
-
-    console.log('file', file)
-    let fullPath = __dirname+ '/' + path
-    fullPath = fullPath.replace(/\//g, '\\')
-    console.log('fullPath', fullPath)
-    let fileInfo = {}
-    fileInfo.type = file.mimetype
-    fileInfo.name = file.originalname
-    fileInfo.size = file.size
-    fileInfo.path = path
-    fileInfo.fullPath = fullPath
-    res.json({
-        code: 200,
-        msg: 'ok',
-        data: fileInfo
-    })
-})
 
 router.get('/', (req, res) => {
     let username = req.query.username
@@ -136,6 +107,45 @@ router.get('/', (req, res) => {
 //     })
 // })
 // #endregion
+
+
+// 头像上传
+router.post('/imgUpload', multer({
+    dest: 'public/image',
+}).array('file', 1),
+function (req, res, next) {
+    const { username } = req.body
+    // console.log('body',req.body)
+    // body [Object: null prototype] { test: 'test1111' }
+
+    let file = req.files[0]
+    let path = 'public/image/' + username + '.' + file.originalname.split('.')[1]
+    // 覆盖
+    fs.renameSync('./public/image/' + file.filename, path);
+
+    let fileInfo = {}
+    fileInfo.type = file.mimetype
+    fileInfo.name = file.originalname
+    fileInfo.size = file.size
+    fileInfo.path = path
+
+    let imgUrl  = `http://localhost:3000/api/image/${username}.jpg`
+
+    let sql =  `update users set imgUrl = ? where username = ?`
+    let arr= [imgUrl, username]
+    new Promise((resolve, reject) => {
+        conMysql(sql, arr, result1 => {
+            resolve(result1.affectedRows)
+        })
+    }).then(result => {
+        res.json({
+            status: 200,
+            msg: 'ok',
+            data: fileInfo,
+            result
+        })
+    })
+})
 
 // 获取echarts物资信息
 router.get('/echartsList', (req, res) => {
@@ -359,7 +369,7 @@ router.delete('/deleteGoods', (req, res) => {
     })  
 })
 
-// 获取物资信息
+// 搜索物资信息
 router.get('/searchGoods', (req, res) => {
     console.log('/searchGoods')
 
