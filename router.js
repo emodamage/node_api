@@ -81,10 +81,12 @@ router.post('/imgUpload', multer({
     dest: 'public/image',
 }).array('file', 1),
 function (req, res, next) {
+    const { username} = req.body
+    console.log('body',req.body['username'])
+    // body [Object: null prototype] { test: 'test1111' }
 
-    let username = req.query.username
     let file = req.files[0]
-    let path = 'public/image/' + username + '_' + file.originalname
+    let path = 'public/image/' + username + '.' + file.originalname.split('.')[1]
     // 覆盖
     fs.renameSync('./public/image/' + file.filename, path);
 
