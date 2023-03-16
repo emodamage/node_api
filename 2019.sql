@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 16/03/2023 10:40:41
+ Date: 16/03/2023 23:10:48
 */
 
 SET NAMES utf8mb4;
@@ -68,7 +68,7 @@ CREATE TABLE `manage_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1335 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1340 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of manage_goods
@@ -150,13 +150,15 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (60, '1234', '24214', '1', '13973034458', '县存储局', '男', NULL);
-INSERT INTO `users` VALUES (62, '466456', '649684', '2', '13973034558', '县供应商', '男', NULL);
-INSERT INTO `users` VALUES (64, '46645674', '649684', '3', '13973034558', '县志愿者', '女', NULL);
-INSERT INTO `users` VALUES (65, 'adsas', 'asda', '1', '13973034558', '县存储局', '男', NULL);
-INSERT INTO `users` VALUES (66, 'asda', 'dasd', '1', '13973034558', '县存储局', '女', NULL);
-INSERT INTO `users` VALUES (69, 'admin1', 'admin1', '1', '13973034558', '县存储局', '男', NULL);
-INSERT INTO `users` VALUES (70, 'admin2', 'admin2', '2', '13973216546', '县供应商', '女', NULL);
-INSERT INTO `users` VALUES (71, 'admin3', 'admin3', '3', '13546842168', '县志愿者', '男', NULL);
+INSERT INTO `users` VALUES (60, '1234', '24214', '1', '13973034458', '县存储局', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (62, '466456', '649684', '2', '13973034558', '县供应商', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (64, '46645674', '649684', '3', '13973034558', '县志愿者', '女', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (65, 'adsas', 'asda', '1', '13973034558', '县存储局', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (66, 'asda', 'dasd', '1', '13973034558', '县存储局', '女', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (69, 'admin1', 'admin1', '1', '13973034558', '县存储局', '男', 'http://localhost:3000/api/image/admin1.jpg');
+INSERT INTO `users` VALUES (70, 'admin2', 'admin2', '2', '13973216546', '县供应商', '女', 'http://localhost:3000/api/image/admin2.jpg');
+INSERT INTO `users` VALUES (71, 'admin3', 'admin3', '3', '13546842168', '县志愿者', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (72, 'asdsa', 'asda', '3', '13798780248', 'gbhkkl;', '女', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (73, 'obno', 'uioi;', '2', '13856783456', 'adsoihno', '男', 'http://localhost:3000/api/image/default.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;
