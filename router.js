@@ -108,164 +108,204 @@ router.get('/', (req, res) => {
 // })
 // #endregion
 
+// 注册用户
+router.post('/register', (req, res) => {
+  let username = req.body.form.username
+  let password = req.body.form.password
+  let power = req.body.form.power
+  let phone = req.body.form.phone
+  let department = req.body.form.department
+  let sex = req.body.form.sex
+  let imgUrl = 'http://localhost:3000/api/image/default.jpg'
+
+  let sql = `insert ignore into users values (null, ?, ?, ?, ?, ?, ?, ?)`
+  let arr = [username, password, power, phone, department, sex, imgUrl]
+  conMysql(sql, arr, result => {
+    if (result.affectedRows > 0) {
+      res.send({
+          info: '注册成功',
+          status: 200
+      })
+    } else {
+      res.send({
+          info: '用户名已重复，请重新输入',
+          status: 0
+      })
+    }
+  })
+})
+
+// 用户登录
+router.post('/login', (req, res) => {
+  // console.log(req.body)
+  // console.log(req.query)
+  // console.log(req.params)
+  // console.log(req.body.form)
+  let username = req.body.form.username
+  let password = req.body.form.password
+  let power = req.body.form.power
+
+
+  let sql = `select * from users where username= ? and password= ? and power = ?`
+  let arr = [username, password, power]
+  conMysql(sql, arr, result => {
+    // console.log(result);
+    if (result.length > 0) {
+      res.send({
+        info: '登录成功',
+        status: 200,
+        result
+      })
+    } else {
+      res.send({
+        info: '登录失败',
+        status: 0,
+        msg: '查找不到该用户'
+      })
+    }
+  })
+  console.log('/login') 
+})
 
 // 头像上传
 router.post('/imgUpload', multer({
-    dest: 'public/image',
+  dest: 'public/image',
 }).array('file', 1),
 function (req, res, next) {
-    const { username } = req.body
-    // console.log('body',req.body)
-    // body [Object: null prototype] { test: 'test1111' }
+  const { username } = req.body
+  // console.log('body',req.body)
+  // body [Object: null prototype] { test: 'test1111' }
 
-    let file = req.files[0]
-    let path = 'public/image/' + username + '.' + file.originalname.split('.')[1]
-    // 覆盖
-    fs.renameSync('./public/image/' + file.filename, path);
+  let file = req.files[0]
+  let path = 'public/image/' + username + '.' + file.originalname.split('.')[1]
+  // 覆盖
+  fs.renameSync('./public/image/' + file.filename, path);
 
-    let fileInfo = {}
-    fileInfo.type = file.mimetype
-    fileInfo.name = file.originalname
-    fileInfo.size = file.size
-    fileInfo.path = path
+  let fileInfo = {}
+  fileInfo.type = file.mimetype
+  fileInfo.name = file.originalname
+  fileInfo.size = file.size
+  fileInfo.path = path
 
-    let imgUrl  = `http://localhost:3000/api/image/${username}.jpg`
+  let imgUrl  = `http://localhost:3000/api/image/${username}.jpg`
 
-    let sql =  `update users set imgUrl = ? where username = ?`
-    let arr= [imgUrl, username]
-    new Promise((resolve, reject) => {
-        conMysql(sql, arr, result1 => {
-            resolve(result1.affectedRows)
-        })
-    }).then(result => {
-        res.json({
-            status: 200,
-            msg: 'ok',
-            data: fileInfo,
-            result
-        })
+  let sql =  `update users set imgUrl = ? where username = ?`
+  let arr= [imgUrl, username]
+  new Promise((resolve, reject) => {
+    conMysql(sql, arr, result1 => {
+      resolve(result1.affectedRows)
     })
+  }).then(result => {
+    res.json({
+      status: 200,
+      msg: 'ok',
+      data: fileInfo,
+      result
+    })
+  })
 })
 
 // 获取echarts物资信息
 router.get('/echartsList', (req, res) => {
-    let power = req.query.power
-    let sql = ''
+  let power = req.query.power
+  let sql = ''
 
-    if (power == 1) {
-        sql = 'select * from manage_goods order by rand() limit 10'
-    } else if (power == 2) {
-        sql = 'select * from provide_goods order by rand() limit 10'
-    } else {
-        sql = 'select * from buyer_goods order by rand() limit 10'
-    }
-    let arr = []
+  if (power == 1) {
+    sql = 'select * from manage_goods order by rand() limit 10'
+  } else if (power == 2) {
+    sql = 'select * from provide_goods order by rand() limit 10'
+  } else {
+    sql = 'select * from buyer_goods order by rand() limit 10'
+  }
+  let arr = []
 
-    conMysql(sql, arr, result => {
-        res.send({
-            info: '获取物资信息',
-            result
-        })
-    }) 
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '获取echarts物资信息',
+      status: 200,
+      result
+    })
+  }) 
 })
 
 // 获取热销榜单数据
 router.get('/hotList', (req, res) => {
+  let power = req.query.power
+  let sql = ''
 
-    let power = req.query.power
-    let sql = ''
+  if (power == 1) {
+    sql ='select * from manage_goods order by number limit 6'
+  } else if (power == 2) {
+    sql = 'select * from provide_goods order by number limit 6'
+  } else {
+    sql = 'select * from buyer_goods order by number limit 6'
+  }
+  let arr = []
 
-    if (power == 1) {
-        sql ='select * from manage_goods order by number limit 6'
-    } else if (power == 2) {
-        sql = 'select * from provide_goods order by number limit 6'
-    } else {
-        sql = 'select * from buyer_goods order by number limit 6'
-    }
-    let arr = []
-
-    conMysql(sql, arr, result => {
-        res.send({
-            info: '获取物资信息',
-            result
-        })
-    }) 
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '获取热销榜单数据',
+      status: 200,
+      result
+    })
+  }) 
 })
 
 // 获取物资信息
 router.get('/goodsList', (req, res) => {
-    console.log('/goodList')
-    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
-    //#region 
-    // res.header("Access-Control-Allow-Origin","*")
-    //#endregion
-    
-    // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
-    // 但是用到了这个函数的都要改
-    let power = req.query.power
-    let currentPage = req.query.currentPage ? req.query.currentPage : 0
-    let size = req.query.size ? req.query.size : 8
-    currentPage = currentPage * size
-    let sql1 = ''
-    currentPage = Number(currentPage)
-    size = Number(size)
-    // console.log(req.query)
-    // console.log(currentPage)
-    // console.log(size)
-    if (power == 1) {
-        // sql = `select * from manage_goods limit ${currentPage},${size}`
-        sql1 = `select * from manage_goods order by time desc limit ?,?`
-    } else if (power == 2) {
-        sql1 = `select * from provide_goods order by time desc limit ?,?`
-    } else {
-        sql1 =`select * from buyer_goods order by id time limit ?,?`
-    }
-    let arr1 = [currentPage, size]
+  console.log('/goodList')
+  // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
+  //#region 
+  // res.header("Access-Control-Allow-Origin","*")
+  //#endregion
+  
+  // 封装的函数所需，如果不需要用，就把封装的函数的arr去掉
+  // 但是用到了这个函数的都要改
+  let power = req.query.power
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  let sql1 = ''
+  currentPage = Number(currentPage)
+  size = Number(size)
 
-    let sql2 = ''
-    if (power == 1) {
-        sql2 = `select count(*) as count from manage_goods`
-    } else if (power == 2) {
-        sql2 = `select * as count from provide_goods`
-    } else {
-        sql2 =`select * count from buyer_goods`
-    }
-    let arr2 = []
-    // let sql = `select * from goods where price > ?`
-    // let arr = [price]
-    let result = ''
-    conMysql(sql1, arr1, result1 => {
-        result = result1
+  if (power == 1) {
+    // sql = `select * from manage_goods limit ${currentPage},${size}`
+    sql1 = `select * from manage_goods order by time desc limit ?,?`
+  } else if (power == 2) {
+    sql1 = `select * from provide_goods order by time desc limit ?,?`
+  } else {
+    sql1 =`select * from buyer_goods order by id time limit ?,?`
+  }
+  let arr1 = [currentPage, size]
+
+  let sql2 = ''
+  if (power == 1) {
+      sql2 = `select count(*) as count from manage_goods`
+  } else if (power == 2) {
+      sql2 = `select * as count from provide_goods`
+  } else {
+      sql2 =`select * count from buyer_goods`
+  }
+  let arr2 = []
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    result = result1
+  })
+  conMysql(sql2, arr2, result2 => {
+    console.log(result2[0].count)
+    res.send({
+      info: '获取物资信息',
+      status: 200,
+      result,
+      count: result2[0].count
     })
-    conMysql(sql2, arr2, result2 => {
-        console.log(result2[0].count)
-        res.send({
-            info: '获取物资信息',
-            result,
-            count: result2[0].count
-
-        })
-    })  
-
-    // 练习代码
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('连接错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '物资信息',
-    //         result
-    //     })      
-    // }) 
+  })  
 })
 
 // 增加物资
 router.post('/addGoods', (req, res) => {
-    // 浏览器中只能用body
-    // console.log(req.body)
-    // console.log(req.params)
-    // console.log(req.query)
     console.log('/addGoods')
     let power = req.body.power
     let name = req.body.form.name
@@ -515,158 +555,158 @@ router.get('/search/:price', (req,res) => {
 /* Module 登录注册模块 
 -------------------------------------------------*/
 // 登录 (username, password)
-router.get('/login', (req, res) => {
-    let username = req.query.username
-    let password = req.query.password
+// router.get('/login', (req, res) => {
+//     let username = req.query.username
+//     let password = req.query.password
 
-    // let sql = `select * from users where username= '${username}' and password= '${password}'`
-    // conMysql(sql, result => {
-    //     res.send({
-    //         info: '登录信息',
-    //         result
-    //     })
-    // }) 
+//     // let sql = `select * from users where username= '${username}' and password= '${password}'`
+//     // conMysql(sql, result => {
+//     //     res.send({
+//     //         info: '登录信息',
+//     //         result
+//     //     })
+//     // }) 
 
-    let sql = `select * from users where username= ? and password= ?`
-    let arr = [username, password]
-    conMysql(sql, arr, result => {
-        console.log(result);
-        res.send({
-            info: '登录信息',
-            result
-        })
-    }) 
+//     let sql = `select * from users where username= ? and password= ?`
+//     let arr = [username, password]
+//     conMysql(sql, arr, result => {
+//         console.log(result);
+//         res.send({
+//             info: '登录信息',
+//             result
+//         })
+//     }) 
 
-    // 练习代码
-    //#region 
-    // con.query(sql, (error, result) => {
-    //     if (error) {
-    //         console.log('查询错误')
-    //         return
-    //     }
-    //     res.send({
-    //         info: '查询结果',
-    //         result
-    //     })
-    // })
-    //#endregion
-})
+//     // 练习代码
+//     //#region 
+//     // con.query(sql, (error, result) => {
+//     //     if (error) {
+//     //         console.log('查询错误')
+//     //         return
+//     //     }
+//     //     res.send({
+//     //         info: '查询结果',
+//     //         result
+//     //     })
+//     // })
+//     //#endregion
+// })
 
-// 提交登录信息 (username, password, power)
-router.post('/register', (req, res) => {
+// // 提交登录信息 (username, password, power)
+// router.post('/register', (req, res) => {
 
-    // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
-    //#region 
-    // res.header("Access-Control-Allow-Origin", "*")
-    //#endregion
+//     // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
+//     //#region 
+//     // res.header("Access-Control-Allow-Origin", "*")
+//     //#endregion
 
-    let username = req.body.username
-    let password = req.body.password
-    let power = req.body.power
+//     let username = req.body.username
+//     let password = req.body.password
+//     let power = req.body.power
 
-    let form = req.body.form
-    console.log('query', req.query)
-    console.log('body', req.body)
-    console.log('params', req.params)
-    // console.log(req.body)
+//     let form = req.body.form
+//     console.log('query', req.query)
+//     console.log('body', req.body)
+//     console.log('params', req.params)
+//     // console.log(req.body)
 
-    // 解析post请求中body的x-www-form-urlencoded格式 
-    //#region 
-    // 如果值为true，req.body变为对象格式
-    // console.log(req.body)
-    // { username: 'admin', password: 'admin' }
-    // 如果值为false或没写，则req.body是underfined
-    // 用来解析post请求中body的x-www-form-urlencoded格式
-    // app.use(express.urlencoded({
-    //     extended: false
-    // }))
-    //#endregion
+//     // 解析post请求中body的x-www-form-urlencoded格式 
+//     //#region 
+//     // 如果值为true，req.body变为对象格式
+//     // console.log(req.body)
+//     // { username: 'admin', password: 'admin' }
+//     // 如果值为false或没写，则req.body是underfined
+//     // 用来解析post请求中body的x-www-form-urlencoded格式
+//     // app.use(express.urlencoded({
+//     //     extended: false
+//     // }))
+//     //#endregion
     
-    // 练习中的代码
-    //#region 
-    // if( username == 'admin' && password == 'admin'){
-    //     res.send({
-    //         info: '提交的信息',
-    //         msg: '提交成功',
-    //         username,
-    //         password
-    //     })
-    // }
-    // else{
-    //     res.send({
-    //         error: '用户或密码错误'
-    //     })
-    // }
-    //#endregion
+//     // 练习中的代码
+//     //#region 
+//     // if( username == 'admin' && password == 'admin'){
+//     //     res.send({
+//     //         info: '提交的信息',
+//     //         msg: '提交成功',
+//     //         username,
+//     //         password
+//     //     })
+//     // }
+//     // else{
+//     //     res.send({
+//     //         error: '用户或密码错误'
+//     //     })
+//     // }
+//     //#endregion
     
-    // console.log(`username: ${username}`)
-    // console.log(`password: ${password}`)
-    // console.log(`power: ${power}`)
+//     // console.log(`username: ${username}`)
+//     // console.log(`password: ${password}`)
+//     // console.log(`power: ${power}`)
 
-    // 防postman中 没输值, 账户密码输入长度有问题， power值不在0|1中 的情况
-    if (username == undefined || password == undefined || 
-        power == undefined || username.length < 4 || 
-        username.length > 8 || password.length < 4 || 
-        password.length > 8 || power != 1|0) {
-        console.log(`传过来的参数为{
-            username: ${username},
-            password: ${password},
-            power: ${power}
-        }`)
-        res.send({
-            info: '传到服务器的参数有问题',
-            result: `传到服务器的参数为{
-                username: ${username},
-                password: ${password},
-                power: ${power}
-            }`
-        })
-        return
-    }
+//     // 防postman中 没输值, 账户密码输入长度有问题， power值不在0|1中 的情况
+//     if (username == undefined || password == undefined || 
+//         power == undefined || username.length < 4 || 
+//         username.length > 8 || password.length < 4 || 
+//         password.length > 8 || power != 1|0) {
+//         console.log(`传过来的参数为{
+//             username: ${username},
+//             password: ${password},
+//             power: ${power}
+//         }`)
+//         res.send({
+//             info: '传到服务器的参数有问题',
+//             result: `传到服务器的参数为{
+//                 username: ${username},
+//                 password: ${password},
+//                 power: ${power}
+//             }`
+//         })
+//         return
+//     }
 
-    console.log(`username: ${username}`)
-    console.log(`password: ${password}`)
-    console.log(`power: ${power}`)
+//     console.log(`username: ${username}`)
+//     console.log(`password: ${password}`)
+//     console.log(`power: ${power}`)
 
-    // sql = `insert ignore into users values (null, '${username}', '${password}', '${power}')`
-    // conMysql(sql, result => {
-    //     console.log(result)
-    //     // result.affectedRows表示影响的行数
-    //     if (result.affectedRows > 0) {
-    //         res.send({
-    //             info: '注册成功',
-    //             status: 1
-    //         })
-    //     }
-    //     else{
-    //         console.log('注册插入错误')
-    //         res.send({
-    //             info: '用户名已重复，请重新输入',
-    //             status: 0
-    //         })
-    //     }
-    // })
+//     // sql = `insert ignore into users values (null, '${username}', '${password}', '${power}')`
+//     // conMysql(sql, result => {
+//     //     console.log(result)
+//     //     // result.affectedRows表示影响的行数
+//     //     if (result.affectedRows > 0) {
+//     //         res.send({
+//     //             info: '注册成功',
+//     //             status: 1
+//     //         })
+//     //     }
+//     //     else{
+//     //         console.log('注册插入错误')
+//     //         res.send({
+//     //             info: '用户名已重复，请重新输入',
+//     //             status: 0
+//     //         })
+//     //     }
+//     // })
 
-    sql = `insert ignore into users values (null, ?, ?, ?)`
-    let arr = [username, password, power]
-    conMysql(sql, arr, result => {
-        // console.log(result)
-        // result.affectedRows表示影响的行数
-        if (result.affectedRows > 0) {
-            res.send({
-                info: '注册成功',
-                status: 1
-            })
-        }
-        else{
-            console.log('注册插入错误')
-            res.send({
-                info: '用户名已重复，请重新输入',
-                status: 0
-            })
-        }
-    })
-})
+//     sql = `insert ignore into users values (null, ?, ?, ?)`
+//     let arr = [username, password, power]
+//     conMysql(sql, arr, result => {
+//         // console.log(result)
+//         // result.affectedRows表示影响的行数
+//         if (result.affectedRows > 0) {
+//             res.send({
+//                 info: '注册成功',
+//                 status: 1
+//             })
+//         }
+//         else{
+//             console.log('注册插入错误')
+//             res.send({
+//                 info: '用户名已重复，请重新输入',
+//                 status: 0
+//             })
+//         }
+//     })
+// })
 
 // 增加物资 (name, price, number)
 // 浏览器中只能用req.body
