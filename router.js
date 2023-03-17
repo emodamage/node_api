@@ -148,13 +148,277 @@ router.post('/login', (req, res) => {
 
   let sql = `select * from users where username= ? and password= ? and power = ?`
   let arr = [username, password, power]
+
+  let menuData = []
+  if (power == 1) {
+    menuData = [
+      {
+        path: '/home',
+        name: 'home',
+        label: '首页',
+        icon: 's-home',
+        url: 'Home/Home'
+      },
+      {
+        path: '/connect',
+        name: 'connect',
+        label: '交流中心',
+        icon: 'user',
+        url: 'Connect/Connect'
+      },
+      {
+        label: '调度中心',
+        icon: 'location',
+        children: [
+        {
+            path: '/dispatch',
+            name: 'dispatch',
+            label: '调度',
+            icon: 'setting',
+            url: 'Dispatch/Dispatch'
+          },
+          {
+            path: '/dispatch/in',
+            name: 'in',
+            label: '入货记录表',
+            icon: 'setting',
+            url: 'Dispatch/In'
+          },
+          {
+            path: '/dispatch/out',
+            name: 'out',
+            label: '出货记录表',
+            icon: 'setting',
+            url: 'Dispatch/Out'
+          }
+        ]
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        label: '物资管理',
+        icon: 'video-play',
+        url: 'Goods/Goods'
+      },
+      {
+        path: '/user',
+        name: 'user',
+        label: '用户管理',
+        icon: 'user',
+        url: 'User/User'
+      },
+      {
+        path: '/system',
+        name: 'system',
+        label: '系统管理',
+        icon: 'user',
+        url: 'System/System'
+      },
+      {
+        label: '其他',
+        icon: 'location',
+        children: [
+          {
+            path: '/page1',
+            name: 'page1',
+            label: '页面1',
+            icon: 'setting',
+            url: 'Other/Page1'
+          },
+          {
+            path: '/page2',
+            name: 'page2',
+            label: '页面2',
+            icon: 'setting',
+            url: 'Other/Page2'
+          }
+        ]
+      },
+      {
+        label: '个人中心',
+        icon: 'location',
+        children: [
+          {
+            path: '/personal1',
+            name: 'personal1',
+            label: '个人中心1',
+            icon: 'setting',
+            url: 'Personal/Personal1'
+          },
+          {
+            path: '/personal2',
+            name: 'personal2',
+            label: '个人中心2',
+            icon: 'setting',
+            url: 'Personal/Personal2'
+          }
+        ]
+      }
+    ]
+  } else if (power == 2) {
+    menuData = [
+      {
+        path: '/home',
+        name: 'home',
+        label: '首页',
+        icon: 's-home',
+        url: 'Home/Home'
+      },
+      {
+        path: '/connect',
+        name: 'connect',
+        label: '交流中心',
+        icon: 'user',
+        url: 'Connect/Connect'
+      },
+      {
+        label: '调度中心',
+        icon: 'location',
+        children: [
+          {
+            path: '/dispatch/out',
+            name: 'out',
+            label: '出货记录表',
+            icon: 'setting',
+            url: 'Dispatch/Out'
+          }
+        ]
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        label: '物资管理',
+        icon: 'video-play',
+        url: 'Goods/Goods'
+      },
+      {
+        label: '其他',
+        icon: 'location',
+        children: [
+          {
+            path: '/page1',
+            name: 'page1',
+            label: '页面1',
+            icon: 'setting',
+            url: 'Other/Page1'
+          },
+          {
+            path: '/page2',
+            name: 'page2',
+            label: '页面2',
+            icon: 'setting',
+            url: 'Other/Page2'
+          }
+        ]
+      },
+      {
+        label: '个人中心',
+        icon: 'location',
+        children: [
+          {
+            path: '/personal1',
+            name: 'personal1',
+            label: '个人中心1',
+            icon: 'setting',
+            url: 'Personal/Personal1'
+          },
+          {
+            path: '/personal2',
+            name: 'personal2',
+            label: '个人中心2',
+            icon: 'setting',
+            url: 'Personal/Personal2'
+          }
+        ]
+      }
+    ]
+  } else {
+    menuData = [
+      {
+        path: '/home',
+        name: 'home',
+        label: '首页',
+        icon: 's-home',
+        url: 'Home/Home'
+      },
+      {
+        path: '/connect',
+        name: 'connect',
+        label: '交流中心',
+        icon: 'user',
+        url: 'Connect/Connect'
+      },
+      {
+        label: '调度中心',
+        icon: 'location',
+        children: [
+          {
+            path: '/dispatch/in',
+            name: 'in',
+            label: '入货记录表',
+            icon: 'setting',
+            url: 'Dispatch/In'
+          }
+        ]
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        label: '物资管理',
+        icon: 'video-play',
+        url: 'Goods/Goods'
+      },
+      {
+        label: '其他',
+        icon: 'location',
+        children: [
+          {
+            path: '/page1',
+            name: 'page1',
+            label: '页面1',
+            icon: 'setting',
+            url: 'Other/Page1'
+          },
+          {
+            path: '/page2',
+            name: 'page2',
+            label: '页面2',
+            icon: 'setting',
+            url: 'Other/Page2'
+          }
+        ]
+      },
+      {
+        label: '个人中心',
+        icon: 'location',
+        children: [
+          {
+            path: '/personal1',
+            name: 'personal1',
+            label: '个人中心1',
+            icon: 'setting',
+            url: 'Personal/Personal1'
+          },
+          {
+            path: '/personal2',
+            name: 'personal2',
+            label: '个人中心2',
+            icon: 'setting',
+            url: 'Personal/Personal2'
+          }
+        ]
+      }
+    ]
+  }
+
   conMysql(sql, arr, result => {
     // console.log(result);
     if (result.length > 0) {
       res.send({
         info: '登录成功',
         status: 200,
-        result
+        result,
+        menuData
       })
     } else {
       res.send({
@@ -275,7 +539,7 @@ router.get('/goodsList', (req, res) => {
   } else if (power == 2) {
     sql1 = `select * from provide_goods order by time desc limit ?,?`
   } else {
-    sql1 =`select * from buyer_goods order by id time limit ?,?`
+    sql1 =`select * from buyer_goods order by time desc limit ?,?`
   }
   let arr1 = [currentPage, size]
 
@@ -283,9 +547,9 @@ router.get('/goodsList', (req, res) => {
   if (power == 1) {
       sql2 = `select count(*) as count from manage_goods`
   } else if (power == 2) {
-      sql2 = `select * as count from provide_goods`
+      sql2 = `select count(*) as count from provide_goods`
   } else {
-      sql2 =`select * count from buyer_goods`
+      sql2 =`select count(*) count from buyer_goods`
   }
   let arr2 = []
 
@@ -362,17 +626,18 @@ router.put('/updateGoods', (req, res) => {
     let place = req.body.form.place
     let manufacturers = req.body.form.manufacturers
     let descs = req.body.form.descs
+    let isDisinfect = req.body.form.isDisinfect
 
     let sql = ''
     if (power == 1) {
         console.log(111)
-        sql =  `update manage_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
+        sql =  `update manage_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ? where name = ?`
     } else if (power == 2) {
-        sql =  `update provide_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
+        sql =  `update provide_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
     } else {
-        sql =  `update buyer_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ? where name = ?`
+        sql =  `update buyer_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
     }
-    let arr = [price, number, place, manufacturers, descs, name]
+    let arr = [price, number, place, manufacturers, descs, isDisinfect, name]
 
     conMysql(sql, arr, result => {
         res.send({
