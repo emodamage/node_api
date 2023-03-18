@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 17/03/2023 22:06:54
+ Date: 18/03/2023 22:31:20
 */
 
 SET NAMES utf8mb4;
@@ -70,7 +70,7 @@ CREATE TABLE `manage_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1341 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1342 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of manage_goods
@@ -94,6 +94,7 @@ INSERT INTO `manage_goods` VALUES (1336, '手', 2.00, 45, '5132', '561', '615', 
 INSERT INTO `manage_goods` VALUES (1337, '手机', 45.10, 20, '1621', '6546', '654', '2023-01-01', '已消毒');
 INSERT INTO `manage_goods` VALUES (1338, '你离开', 100.00, 16, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-06', '未消毒');
 INSERT INTO `manage_goods` VALUES (1339, 'iuv不看好零', 1.00, 55, '便看见了', '不能', '偶伯爵考虑', '2023-03-08', '已消毒');
+INSERT INTO `manage_goods` VALUES (1341, '布莱克', 1.00, 18, '不能离开', 'vhbjknl;m111', '看不见你了', '2023-03-18', '已消毒');
 
 -- ----------------------------
 -- Table structure for provide_goods
@@ -111,7 +112,7 @@ CREATE TABLE `provide_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of provide_goods
@@ -145,7 +146,7 @@ CREATE TABLE `users`  (
   `imgUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
@@ -159,6 +160,8 @@ INSERT INTO `users` VALUES (69, 'admin1', 'admin1', '1', '13973034558', '县存�
 INSERT INTO `users` VALUES (70, 'admin2', 'admin2', '2', '13973216546', '县供应商', '女', 'http://localhost:3000/api/image/admin2.jpg');
 INSERT INTO `users` VALUES (71, 'admin3', 'admin3', '3', '13546842168', '县志愿者', '男', 'http://localhost:3000/api/image/default.jpg');
 INSERT INTO `users` VALUES (72, 'asdsa', 'asda', '3', '13798780248', 'gbhkkl;', '女', 'http://localhost:3000/api/image/default.jpg');
-INSERT INTO `users` VALUES (73, 'obno', 'uioi;', '2', '13856783456', 'adsoihno', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (73, 'obno', 'uioi', '1', '13856783456', 'adsoihno', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (75, 'vhkbjl', 'kblnk', '3', '13745673456', 'vjkbl', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (77, 'asdd', 'bnlk', '1', '15645678907', '不肯接纳了吗', '男', 'http://localhost:3000/api/image/default.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;
