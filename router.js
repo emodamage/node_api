@@ -431,6 +431,58 @@ router.post('/login', (req, res) => {
   console.log('/login') 
 })
 
+// 获取用户信息
+router.get('/userList', (req, res) => {
+  console.log('/userList')
+
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  
+  currentPage = Number(currentPage)
+  size = Number(size)
+
+  let sql1 = `select * from users order by id desc limit ?,?`
+  let arr1 = [currentPage, size]
+
+  let sql2 = `select count(*) as count from users`
+  let arr2 = []
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    result = result1
+  })
+  conMysql(sql2, arr2, result2 => {
+    console.log(result2[0].count)
+    res.send({
+      info: '获取用户信息',
+      status: 200,
+      result,
+      count: result2[0].count
+    })
+  })  
+})
+
+// 修改用户信息
+router.post('/updateUser', (req, res) => {
+  let username = req.body.form.username
+  let password = req.body.form.password
+  let sex = req.body.form.sex
+  let phone = req.body.form.phone
+  let department = req.body.form.department
+
+  let sql =  `update users set password = ?, sex = ?, phone = ?, department = ? where username = ?`
+  let arr = [password, sex, phone, department, username]
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '修改了用户信息',
+      // affectedRows为一说明影响了一行
+      status: result.affectedRows,
+      result
+    })
+  })
+})
+
 // 头像上传
 router.post('/imgUpload', multer({
   dest: 'public/image',
