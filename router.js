@@ -949,7 +949,7 @@ router.get('/searchGoodsIn', (req, res) => {
   console.log('/searchGoodsIn')
 })
 
-// 同意入库
+// 审批
 router.put('/approvalGoods', (req, res) => {
   let power = req.body.power
   let name = req.body.form.name
