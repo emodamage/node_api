@@ -28,54 +28,6 @@ const router = express.Router()
 //         next()
 //     }    
 // })
-// router.post('/test', multer({
-//     dest: 'public/image',
-// }).array('file', 1),
-// function (req, res, next) {
-
-//     console.log('file1', req.body.file)
-//     let file = req.body.file
-//     let path = 'public/image/' + Date.now().toString() + '_' + file.originalname
-//     // 覆盖
-//     fs.renameSync('./public/image/' + file.filename, path);
-
-//     console.log('file', file)
-//     let fileInfo = {}
-//     fileInfo.type = file.mimetype
-//     fileInfo.name = file.originalname
-//     fileInfo.size = file.size
-//     fileInfo.path = path
-//     res.json({
-//         code: 200,
-//         msg: 'ok',
-//         data: fileInfo
-//     })
-// })
-
-// router.post('/test1', multer({
-//     dest: 'public/image',
-// }).array('file', 1),
-// function (req, res, next) {
-
-//     // console.log('file1', req.body.file)
-//     let file = req.files[0]
-//     let path = 'public/image/' + Date.now().toString() + '_' + file.originalname
-//     // 覆盖
-//     fs.renameSync('./public/image/' + file.filename, path);
-
-//     console.log('file', file)
-//     let fileInfo = {}
-//     fileInfo.type = file.mimetype
-//     fileInfo.name = file.originalname
-//     fileInfo.size = file.size
-//     fileInfo.path = path
-//     res.json({
-//         code: 200,
-//         msg: 'ok',
-//         data: fileInfo
-//     })
-// })
-
 
 
 router.get('/', (req, res) => {
@@ -137,10 +89,6 @@ router.post('/register', (req, res) => {
 
 // 用户登录
 router.post('/login', (req, res) => {
-  // console.log(req.body)
-  // console.log(req.query)
-  // console.log(req.params)
-  // console.log(req.body.form)
   let username = req.body.form.username
   let password = req.body.form.password
   let power = req.body.form.power
@@ -157,39 +105,39 @@ router.post('/login', (req, res) => {
         name: 'home',
         label: '首页',
         icon: 's-home',
-        url: 'Home/Home'
+        url: 'Home/Home.vue'
       },
       {
         path: '/connect',
         name: 'connect',
         label: '交流中心',
         icon: 'user',
-        url: 'Connect/Connect'
+        url: 'Connect/Connect.vue'
       },
       {
         label: '调度中心',
         icon: 'location',
         children: [
-        {
+          {
             path: '/dispatch',
             name: 'dispatch',
             label: '调度',
             icon: 'setting',
-            url: 'Dispatch/Dispatch'
+            url: 'Dispatch/Dispatch.vue'
           },
           {
             path: '/dispatch/in',
             name: 'in',
-            label: '入货记录表',
+            label: '入库审批表',
             icon: 'setting',
-            url: 'Dispatch/In'
+            url: 'Dispatch/In.vue'
           },
           {
             path: '/dispatch/out',
             name: 'out',
-            label: '出货记录表',
+            label: '出库记录表',
             icon: 'setting',
-            url: 'Dispatch/Out'
+            url: 'Dispatch/Out.vue'
           }
         ]
       },
@@ -198,21 +146,21 @@ router.post('/login', (req, res) => {
         name: 'goods',
         label: '物资管理',
         icon: 'video-play',
-        url: 'Goods/Goods'
+        url: 'Goods/Goods.vue'
       },
       {
         path: '/user',
         name: 'user',
         label: '用户管理',
         icon: 'user',
-        url: 'User/User'
+        url: 'User/User.vue'
       },
       {
         path: '/system',
         name: 'system',
         label: '系统管理',
         icon: 'user',
-        url: 'System/System'
+        url: 'System/System.vue'
       },
       {
         label: '其他',
@@ -223,14 +171,14 @@ router.post('/login', (req, res) => {
             name: 'page1',
             label: '页面1',
             icon: 'setting',
-            url: 'Other/Page1'
+            url: 'Other/Page1.vue'
           },
           {
             path: '/page2',
             name: 'page2',
             label: '页面2',
             icon: 'setting',
-            url: 'Other/Page2'
+            url: 'Other/Page2.vue'
           }
         ]
       },
@@ -243,14 +191,14 @@ router.post('/login', (req, res) => {
             name: 'personal1',
             label: '个人中心1',
             icon: 'setting',
-            url: 'Personal/Personal1'
+            url: 'Personal/Personal1.vue'
           },
           {
             path: '/personal2',
             name: 'personal2',
             label: '个人中心2',
             icon: 'setting',
-            url: 'Personal/Personal2'
+            url: 'Personal/Personal2.vue'
           }
         ]
       }
@@ -262,14 +210,14 @@ router.post('/login', (req, res) => {
         name: 'home',
         label: '首页',
         icon: 's-home',
-        url: 'Home/Home'
+        url: 'Home/Home.vue'
       },
       {
         path: '/connect',
         name: 'connect',
         label: '交流中心',
         icon: 'user',
-        url: 'Connect/Connect'
+        url: 'Connect/Connect.vue'
       },
       {
         label: '调度中心',
@@ -280,7 +228,7 @@ router.post('/login', (req, res) => {
             name: 'out',
             label: '出货记录表',
             icon: 'setting',
-            url: 'Dispatch/Out'
+            url: 'Dispatch/Out.vue'
           }
         ]
       },
@@ -289,7 +237,7 @@ router.post('/login', (req, res) => {
         name: 'goods',
         label: '物资管理',
         icon: 'video-play',
-        url: 'Goods/Goods'
+        url: 'Goods/Goods.vue'
       },
       {
         label: '其他',
@@ -300,14 +248,14 @@ router.post('/login', (req, res) => {
             name: 'page1',
             label: '页面1',
             icon: 'setting',
-            url: 'Other/Page1'
+            url: 'Other/Page1.vue'
           },
           {
             path: '/page2',
             name: 'page2',
             label: '页面2',
             icon: 'setting',
-            url: 'Other/Page2'
+            url: 'Other/Page2.vue'
           }
         ]
       },
@@ -320,14 +268,14 @@ router.post('/login', (req, res) => {
             name: 'personal1',
             label: '个人中心1',
             icon: 'setting',
-            url: 'Personal/Personal1'
+            url: 'Personal/Personal1.vue'
           },
           {
             path: '/personal2',
             name: 'personal2',
             label: '个人中心2',
             icon: 'setting',
-            url: 'Personal/Personal2'
+            url: 'Personal/Personal2.vue'
           }
         ]
       }
@@ -339,14 +287,14 @@ router.post('/login', (req, res) => {
         name: 'home',
         label: '首页',
         icon: 's-home',
-        url: 'Home/Home'
+        url: 'Home/Home.vue'
       },
       {
         path: '/connect',
         name: 'connect',
         label: '交流中心',
         icon: 'user',
-        url: 'Connect/Connect'
+        url: 'Connect/Connect.vue'
       },
       {
         label: '调度中心',
@@ -355,9 +303,9 @@ router.post('/login', (req, res) => {
           {
             path: '/dispatch/in',
             name: 'in',
-            label: '入货记录表',
+            label: '入库审批表',
             icon: 'setting',
-            url: 'Dispatch/In'
+            url: 'Dispatch/In.vue'
           }
         ]
       },
@@ -366,7 +314,7 @@ router.post('/login', (req, res) => {
         name: 'goods',
         label: '物资管理',
         icon: 'video-play',
-        url: 'Goods/Goods'
+        url: 'Goods/Goods.vue'
       },
       {
         label: '其他',
@@ -377,14 +325,14 @@ router.post('/login', (req, res) => {
             name: 'page1',
             label: '页面1',
             icon: 'setting',
-            url: 'Other/Page1'
+            url: 'Other/Page1.vue'
           },
           {
             path: '/page2',
             name: 'page2',
             label: '页面2',
             icon: 'setting',
-            url: 'Other/Page2'
+            url: 'Other/Page2.vue'
           }
         ]
       },
@@ -397,14 +345,14 @@ router.post('/login', (req, res) => {
             name: 'personal1',
             label: '个人中心1',
             icon: 'setting',
-            url: 'Personal/Personal1'
+            url: 'Personal/Personal1.vue'
           },
           {
             path: '/personal2',
             name: 'personal2',
             label: '个人中心2',
             icon: 'setting',
-            url: 'Personal/Personal2'
+            url: 'Personal/Personal2.vue'
           }
         ]
       }
@@ -412,7 +360,6 @@ router.post('/login', (req, res) => {
   }
 
   conMysql(sql, arr, result => {
-    // console.log(result);
     if (result.length > 0) {
       res.send({
         info: '登录成功',
@@ -433,7 +380,6 @@ router.post('/login', (req, res) => {
 
 // 获取用户信息
 router.get('/userList', (req, res) => {
-  console.log('/userList')
 
   let currentPage = req.query.currentPage ? req.query.currentPage : 0
   let size = req.query.size ? req.query.size : 8
@@ -453,14 +399,14 @@ router.get('/userList', (req, res) => {
     result = result1
   })
   conMysql(sql2, arr2, result2 => {
-    console.log(result2[0].count)
     res.send({
       info: '获取用户信息',
       status: 200,
       result,
       count: result2[0].count
     })
-  })  
+  })
+  console.log('/userList')
 })
 
 // 修改用户信息
@@ -492,19 +438,18 @@ router.delete('/deleteUser', (req, res) => {
   let arr = [username]
 
   conMysql(sql, arr, result => {
-      res.send({
-          info: '删除了用户',
-          // affectedRows为一说明影响了一行
-          status: result.affectedRows,
-          result
-      })
-  })  
+    res.send({
+      info: '删除了用户',
+      // affectedRows为一说明影响了一行
+      status: result.affectedRows,
+      result
+    })
+  })
+  console.log('/deleteUser')  
 })
 
 // 搜索用户信息
 router.get('/searchUser', (req, res) => {
-  console.log('/searchUser')
-
   let searchValue = req.query.searchValue
   let currentPage = req.query.currentPage ? req.query.currentPage : 0
   let size = req.query.size ? req.query.size : 8
@@ -512,9 +457,7 @@ router.get('/searchUser', (req, res) => {
   currentPage = Number(currentPage)
   size = Number(size)
   searchValue = `%${String(searchValue)}%`
-  // console.log('power', power)
-  // console.log('searchValue', searchValue)
-  // console.log('power', power)
+
   let sql1 = `select * from users where username like ? ORDER BY id desc limit ?, ?`
   let arr1 = [searchValue, currentPage, size]
 
@@ -527,12 +470,13 @@ router.get('/searchUser', (req, res) => {
       result = result1
   }) 
   conMysql(sql2, arr2, result2 => {
-      res.send({
-          info: '获取用户信息',
-          result,
-          count: result2[0].count
-      })
+    res.send({
+      info: '获取用户信息',
+      result,
+      count: result2[0].count
+    })
   }) 
+  console.log('/searchUser')
 })
 
 // 头像上传
@@ -571,6 +515,7 @@ function (req, res, next) {
       result
     })
   })
+  console.log('/imgUpload')
 })
 
 // 获取echarts物资信息
@@ -593,7 +538,8 @@ router.get('/echartsList', (req, res) => {
       status: 200,
       result
     })
-  }) 
+  })
+  console.log('/echartsList')
 })
 
 // 获取热销榜单数据
@@ -616,12 +562,12 @@ router.get('/hotList', (req, res) => {
       status: 200,
       result
     })
-  }) 
+  })
+  console.log('/hotList') 
 })
 
 // 获取物资信息
 router.get('/goodsList', (req, res) => {
-  console.log('/goodList')
   // 设置允许跨域的域名，*代表允许任意域名跨越 (单一繁琐，已简写，cors)
   //#region 
   // res.header("Access-Control-Allow-Origin","*")
@@ -670,163 +616,375 @@ router.get('/goodsList', (req, res) => {
       count: result2[0].count
     })
   })  
+  console.log('/goodList')
 })
 
 // 增加物资
 router.post('/addGoods', (req, res) => {
-    console.log('/addGoods')
-    let power = req.body.power
-    let name = req.body.form.name
-    let price = req.body.form.price
-    price = Number(price)
-    let number = req.body.form.number
-    let place = req.body.form.place
-    let manufacturers = req.body.form.manufacturers
-    let descs = req.body.form.descs
-    let time = req.body.form.time
-    let isDisinfect = req.body.form.isDisinfect
-    // console.log(power)
-    // console.log(name)
-    // console.log(price)
-    // console.log(number)
-    // console.log(place)
-    // console.log(manufacturers)
-    // console.log(desc)
-    let sql = ``
-    if (power == 1) {
-        sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
-    } else if (power == 2) {
-        sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
-    } else {
-        sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
-    }
-    let arr = [name, price, number, place, manufacturers, descs, time ,isDisinfect]
+  let power = req.body.power
+  let name = req.body.form.name
+  let price = req.body.form.price
+  price = Number(price)
+  let number = req.body.form.number
+  let place = req.body.form.place
+  let manufacturers = req.body.form.manufacturers
+  let descs = req.body.form.descs
+  let time = req.body.form.time
+  let isDisinfect = req.body.form.isDisinfect
 
-    conMysql(sql, arr, result => {
-        if (result.affectedRows > 0) {
-            res.send({
-                info: '注册插入的物资信息成功',
-                status: result.affectedRows,
-                result
-            })
-        }
-        else{
-            console.log('注册插入错误')
-            res.send({
-                info: '物资名已重复，请重新输入',
-                status: 0
-            })
-        }
-    })     
+  let sql = ``
+  if (power == 1) {
+      sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+  } else if (power == 2) {
+      sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+  } else {
+      sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+  }
+  let arr = [name, price, number, place, manufacturers, descs, time ,isDisinfect]
+
+  conMysql(sql, arr, result => {
+    if (result.affectedRows > 0) {
+      res.send({
+        info: '注册插入的物资信息成功',
+        status: result.affectedRows,
+        result
+      })
+    }
+    else{
+      res.send({
+        info: '物资名已重复，请重新输入',
+        status: 0
+      })
+    }
+  })    
+  console.log('/addGoods') 
 })
 
 // 根据名字修改物资信息
 router.put('/updateGoods', (req, res) => {
-    let power = req.body.power
-    let name = req.body.form.name
-    let price = req.body.form.price
-    price = Number(price)
-    let number = req.body.form.number
-    let place = req.body.form.place
-    let manufacturers = req.body.form.manufacturers
-    let descs = req.body.form.descs
-    let isDisinfect = req.body.form.isDisinfect
+  let power = req.body.power
+  let name = req.body.form.name
+  let price = req.body.form.price
+  price = Number(price)
+  let number = req.body.form.number
+  let place = req.body.form.place
+  let manufacturers = req.body.form.manufacturers
+  let descs = req.body.form.descs
+  let isDisinfect = req.body.form.isDisinfect
 
-    let sql = ''
-    if (power == 1) {
-        console.log(111)
-        sql =  `update manage_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ? where name = ?`
-    } else if (power == 2) {
-        sql =  `update provide_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
-    } else {
-        sql =  `update buyer_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
-    }
-    let arr = [price, number, place, manufacturers, descs, isDisinfect, name]
+  let sql = ''
+  if (power == 1) {
+    sql =  `update manage_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ? where name = ?`
+  } else if (power == 2) {
+    sql =  `update provide_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
+  } else {
+    sql =  `update buyer_goods set price = ?, number = ?, place = ?, manufacturers = ?, descs = ?, isDisinfect = ?  where name = ?`
+  }
+  let arr = [price, number, place, manufacturers, descs, isDisinfect, name]
 
-    conMysql(sql, arr, result => {
-        res.send({
-            info: '修改了物资信息',
-            // affectedRows为一说明影响了一行
-            status: result.affectedRows,
-            result
-        })
-    })   
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '修改了物资信息',
+      // affectedRows为一说明影响了一行
+      status: result.affectedRows,
+      result
+    })
+  })   
+  console.log('/updateGoods')
 })
 
 // 根据名字删除物资
 router.delete('/deleteGoods', (req, res) => {
-    let power = req.body.power
-    let name = req.body.form.name
-    
-    let sql =''
-    if (power == 1) {
-        sql = `delete from manage_goods where name = ?`
-    } else if (power == 2) {
-        sql = `delete from provide_goods where name = ?`
-    } else {
-        sql = `delete from buyer_goods where name = ?`
-    }
-    let arr = [name]
+  let power = req.body.power
+  let name = req.body.form.name
+  
+  let sql =''
+  if (power == 1) {
+      sql = `delete from manage_goods where name = ?`
+  } else if (power == 2) {
+      sql = `delete from provide_goods where name = ?`
+  } else {
+      sql = `delete from buyer_goods where name = ?`
+  }
+  let arr = [name]
 
-    conMysql(sql, arr, result => {
-        res.send({
-            info: '删除了物资信息',
-            // affectedRows为一说明影响了一行
-            status: result.affectedRows,
-            result
-        })
-    })  
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '删除了物资信息',
+      // affectedRows为一说明影响了一行
+      status: result.affectedRows,
+      result
+    })
+  }) 
+  console.log('/deleteGoods') 
 })
 
 // 搜索物资信息
 router.get('/searchGoods', (req, res) => {
-    console.log('/searchGoods')
+  let power = req.query.power
+  let searchValue = req.query.searchValue
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  currentPage = Number(currentPage)
+  size = Number(size)
+  searchValue = `%${String(searchValue)}%`
 
-    let power = req.query.power
-    let searchValue = req.query.searchValue
-    let currentPage = req.query.currentPage ? req.query.currentPage : 0
-    let size = req.query.size ? req.query.size : 8
-    currentPage = currentPage * size
-    currentPage = Number(currentPage)
-    size = Number(size)
-    searchValue = `%${String(searchValue)}%`
-    // console.log('power', power)
-    // console.log('searchValue', searchValue)
-    // console.log('power', power)
-    let sql1 = ''
-    if (power == 1) {
-        sql1 = `select * from manage_goods where name like ? ORDER BY time desc limit ?, ?`
-        // select * from manage_goods where name like '%?%' ORDER BY time desc
-    } else if (power == 2) {
-        sql1 = `select * from provide_goods where name like ? ORDER BY time desc limit ?, ?`
-    } else {
-        sql1 =`select * from buyer_goods where name like ? ORDER BY time desc limit ?, ?`
-    }
-    let arr1 = [searchValue, currentPage, size]
+  let sql1 = ''
+  if (power == 1) {
+    sql1 = `select * from manage_goods where name like ? ORDER BY time desc limit ?, ?`
+  } else if (power == 2) {
+    sql1 = `select * from provide_goods where name like ? ORDER BY time desc limit ?, ?`
+  } else {
+    sql1 =`select * from buyer_goods where name like ? ORDER BY time desc limit ?, ?`
+  }
+  let arr1 = [searchValue, currentPage, size]
+
+  let sql2 = ''
+  if (power == 1) {
+      sql2 = `select count(*) as count from manage_goods where name like ?`
+  } else if (power == 2) {
+      sql2 = `select count(*) as count from provide_goods where name like ?`
+  } else {
+      sql2 =`select count(*) as count from buyer_goods where name like ?`
+  }
+  let arr2 = [searchValue]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+      result = result1
+  }) 
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '搜索物资信息',
+      result,
+      count: result2[0].count
+    })
+  }) 
+  console.log('/searchGoods')
+})
+
+// 物资出库 （只有供应商和管理员出库）
+router.put('/outGoods', (req, res) => {
+  let power = req.body.power
+  let name = req.body.form.name
+  let number = req.body.form.number
+
+  let price = req.body.form.price
+  price = Number(price)
+  let place = req.body.form.place
+  let manufacturers = req.body.form.manufacturers
+  let descs = req.body.form.descs
+  let time = req.body.form.time
+  let isDisinfect = req.body.form.isDisinfect
+
+  let approval = '1'
+  // 修改仓库物资的数量
+  let sql1 = ''
+  if (power == 1) {
+    sql1 =  `update manage_goods set number = number - ? where name = ?`
+  } else {
+    sql1 =  `update provide_goods set number = number - ? where name = ?`   
+  }
+  let arr1 = [number, name]
+
+  // 将出库物资插入到出库表中
+  let sql2 = `insert into goods_out values(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  
+  let arr2 = [name, price, number, place, manufacturers, descs, time ,isDisinfect, approval, power]
 
 
-    let sql2 = ''
-    if (power == 1) {
-        sql2 = `select count(*) as count from manage_goods where name like ?`
-        // select * from manage_goods where name like '%?%' ORDER BY time desc
-    } else if (power == 2) {
-        sql2 = `select count(*) as count from provide_goods where name like ?`
-    } else {
-        sql2 =`select count(*) as count from buyer_goods where name like ?`
-    }
-    let arr2 = [searchValue]
-
-    let result = ''
+  new Promise((resolve, reject) => {
     conMysql(sql1, arr1, result1 => {
-        result = result1
-    }) 
+      resolve(result1)
+    })  
+  }).then(result1 => {
     conMysql(sql2, arr2, result2 => {
-        res.send({
-            info: '获取物资信息',
-            result,
-            count: result2[0].count
-        })
-    }) 
+      res.send({
+        info: `对${name}进行了出库`,
+        // affectedRows为一说明影响了一行
+        status: 200,
+        result1,
+        result2
+      })
+    })   
+  })
+  console.log('/outGoods')
+})
+
+// 获取出库物资信息
+router.get('/outList', (req, res) => {
+  let power = req.query.power
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+ 
+  currentPage = Number(currentPage)
+  size = Number(size)
+
+   let sql1 = `select * from goods_out where power = ? order by time desc limit ?,? `
+  let arr1 = [power, currentPage, size]
+
+  let sql2 = `select count(*) as count from goods_out where power = ?`
+  let arr2 = [power]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    result = result1
+  })
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '获取出库物资信息',
+      status: 200,
+      result,
+      count: result2[0].count
+    })
+  })
+  console.log('/outList')  
+})
+
+// 搜索出库物资信息
+router.get('/searchGoodsOut', (req, res) => {
+  let power = req.query.power
+  let searchValue = req.query.searchValue
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  currentPage = Number(currentPage)
+  size = Number(size)
+  searchValue = `%${String(searchValue)}%`
+
+  let sql1 = `select * from goods_out where name like ? and power = ? ORDER BY time desc limit ?, ?`
+  let arr1 = [searchValue, power, currentPage, size]
+
+
+  let sql2 = `select count(*) as count from goods_out where name like ? and power = ?`
+  let arr2 = [searchValue, power]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+      result = result1
+  }) 
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '搜索出库物资信息',
+      result,
+      count: result2[0].count
+    })
+  }) 
+  console.log('/searchGoodsOut')
+})
+
+// 获取入库审批信息 (只有管理员和需求方)
+router.get('/inList', (req, res) => {
+  let power = req.query.power
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+ 
+  currentPage = Number(currentPage)
+  size = Number(size)
+
+  let sql1 = ''
+  let sql2 = ''
+  if (power == 1) {
+    sql1 = `select * from goods_out where power = 2 order by time desc limit ?,? `
+    sql2 = `select count(*) as count from goods_out where power = 2`
+  } else {
+    sql1 = `select * from goods_out where power = 1 order by time desc limit ?,? `
+    sql2 = `select count(*) as count from goods_out where power = 1`
+  }
+  let arr1 = [currentPage, size]
+  let arr2 = []
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    result = result1
+  })
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '获取入库审批信息',
+      status: 200,
+      result,
+      count: result2[0].count
+    })
+  })  
+  console.log('/inList')
+})
+
+// 搜索入库审批信息
+router.get('/searchGoodsIn', (req, res) => {
+  let power = req.query.power
+  let searchValue = req.query.searchValue
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  currentPage = Number(currentPage)
+  size = Number(size)
+  searchValue = `%${String(searchValue)}%`
+
+  let sql1 = ''
+  let sql2 = ''
+  if (power == 1) {
+    sql1 = `select * from goods_out where name like ? and power = 2 ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from goods_out where name like ? and power = 2`
+  } else {
+    sql1 = `select * from goods_out where name like ? and power = 1 ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from goods_out where name like ? and power = 1`
+  }
+  let arr1 = [searchValue, currentPage, size]
+  let arr2 = [searchValue]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+      result = result1
+  }) 
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '搜索入库审批信息',
+      result,
+      count: result2[0].count
+    })
+  }) 
+  console.log('/searchGoodsIn')
+})
+
+// 同意入库
+router.put('/approvalGoods', (req, res) => {
+  let power = req.body.power
+  let name = req.body.form.name
+  let price = req.body.form.price
+  price = Number(price)
+  let number = req.body.form.number
+  let place = req.body.form.place
+  let manufacturers = req.body.form.manufacturers
+  let descs = req.body.form.descs
+  let isDisinfect = req.body.form.isDisinfect
+  let time = req.body.form.time
+
+  let id = req.body.form.id
+  let approval = req.body.form.approval
+  let sql1 = `update goods_out set approval = ? where id = ?`
+  let arr1 = [approval, id]
+  let sql2 = `insert into goods_in values(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  let arr2 = [name, price, number, place, manufacturers, descs, time, isDisinfect, approval, power]
+
+  new Promise((resolve, reject) => {
+    conMysql(sql1, arr1, result1 => {
+      resolve(result1)
+    })  
+  }).then(result1 => {
+    conMysql(sql2, arr2, result2 => {
+      res.send({
+        info: `对${name}进行了审批`,
+        // affectedRows为一说明影响了一行
+        status: 200,
+        result1,
+        result2
+      })
+    })   
+  })   
+  console.log('/approvalGoods')
 })
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
