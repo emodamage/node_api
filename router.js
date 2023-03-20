@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
   conMysql(sql, arr, result => {
     if (result.affectedRows > 0) {
       res.send({
-          info: '注册成功',
+          info: `用户${username}注册成功`,
           status: 200
       })
     } else {
@@ -370,7 +370,7 @@ router.post('/login', (req, res) => {
   conMysql(sql, arr, result => {
     if (result.length > 0) {
       res.send({
-        info: '登录成功',
+        info: `用户${username}登录成功`,
         status: 200,
         result,
         menuData
@@ -408,7 +408,7 @@ router.get('/userList', (req, res) => {
   })
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '获取用户信息',
+      info: '获取用户列表信息',
       status: 200,
       result,
       count: result2[0].count
@@ -430,7 +430,7 @@ router.post('/updateUser', (req, res) => {
   let arr = [password, power, sex, phone, department, username]
   conMysql(sql, arr, result => {
     res.send({
-      info: '修改了用户信息',
+      info: `修改了用户${username}的信息`,
       // affectedRows为一说明影响了一行
       status: result.affectedRows,
       result
@@ -447,7 +447,7 @@ router.delete('/deleteUser', (req, res) => {
 
   conMysql(sql, arr, result => {
     res.send({
-      info: '删除了用户',
+      info: `删除了用户${username}`,
       // affectedRows为一说明影响了一行
       status: result.affectedRows,
       result
@@ -479,7 +479,7 @@ router.get('/searchUser', (req, res) => {
   }) 
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '获取用户信息',
+      info: '获取用户列表信息',
       result,
       count: result2[0].count
     })
@@ -617,7 +617,7 @@ router.get('/goodsList', (req, res) => {
   conMysql(sql2, arr2, result2 => {
     console.log(result2[0].count)
     res.send({
-      info: '获取物资信息',
+      info: '获取物资列表信息',
       status: 200,
       result,
       count: result2[0].count
@@ -652,7 +652,7 @@ router.post('/addGoods', (req, res) => {
   conMysql(sql, arr, result => {
     if (result.affectedRows > 0) {
       res.send({
-        info: '注册插入的物资信息成功',
+        info: `${name}物资注册成功`,
         status: result.affectedRows,
         result
       })
@@ -691,7 +691,7 @@ router.put('/updateGoods', (req, res) => {
 
   conMysql(sql, arr, result => {
     res.send({
-      info: '修改了物资信息',
+      info: `修改了${name}的物资信息`,
       // affectedRows为一说明影响了一行
       status: result.affectedRows,
       result
@@ -717,7 +717,7 @@ router.delete('/deleteGoods', (req, res) => {
 
   conMysql(sql, arr, result => {
     res.send({
-      info: '删除了物资信息',
+      info: `删除了${name}物资`,
       // affectedRows为一说明影响了一行
       status: result.affectedRows,
       result
@@ -758,7 +758,7 @@ router.get('/searchGoods', (req, res) => {
   }) 
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '搜索物资信息',
+      info: '搜索物资列表信息',
       result,
       count: result2[0].count
     })
@@ -814,7 +814,7 @@ router.put('/outGoods', (req, res) => {
   console.log('/outGoods')
 })
 
-// 获取出库物资信息
+// 获取出库物资信息 (只有管理员和供应商)
 router.get('/outList', (req, res) => {
   let power = req.query.power
   let currentPage = req.query.currentPage ? req.query.currentPage : 0
@@ -836,7 +836,7 @@ router.get('/outList', (req, res) => {
   })
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '获取出库物资信息',
+      info: '获取出库物资列表信息',
       status: 200,
       result,
       count: result2[0].count
@@ -845,7 +845,7 @@ router.get('/outList', (req, res) => {
   console.log('/outList')  
 })
 
-// 搜索出库物资信息
+// 搜索出库物资信息 (只有管理员和供应商)
 router.get('/searchGoodsOut', (req, res) => {
   let power = req.query.power
   let searchValue = req.query.searchValue
@@ -868,7 +868,7 @@ router.get('/searchGoodsOut', (req, res) => {
   }) 
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '搜索出库物资信息',
+      info: '搜索出库物资列表信息',
       result,
       count: result2[0].count
     })
@@ -901,7 +901,7 @@ router.get('/inList', (req, res) => {
   conMysql(sql2, arr2, result2 => {
     console.log('result', result)
     res.send({
-      info: '获取入库物资信息',
+      info: '获取入库物资列表信息',
       status: 200,
       result,
       count: result2[0].count
@@ -940,7 +940,7 @@ router.get('/searchGoodsIn', (req, res) => {
   }) 
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '搜索入库物资信息',
+      info: '搜索入库物资列表信息',
       result,
       count: result2[0].count
     })
@@ -976,7 +976,7 @@ router.get('/dispatchList', (req, res) => {
   })
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '获取入库审批信息',
+      info: '获取入库审批列表信息',
       status: 200,
       result,
       count: result2[0].count
@@ -1014,7 +1014,7 @@ router.get('/searchGoodsDispatch', (req, res) => {
   }) 
   conMysql(sql2, arr2, result2 => {
     res.send({
-      info: '搜索入库审批信息',
+      info: '搜索入库审批列表信息',
       result,
       count: result2[0].count
     })
