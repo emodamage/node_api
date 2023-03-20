@@ -1128,6 +1128,24 @@ router.post('/addConnect', (req, res) => {
   console.log('/addConnect') 
 })
 
+// 修改用户权限
+router.put('/updatePower', (req, res) => {
+  let username = req.body.form.username
+  let power = req.body.form.power
+
+  let sql = `update users set power = ? where username = ?`
+  let arr = [power, username]
+
+  conMysql(sql, arr, result => {
+    res.send({
+      info: `修改了用户${username}的权限`,
+      status: result.affectedRows,
+      result
+    })
+  }) 
+})
+
+
 // 按price过滤物资列表 (price) 地址栏显示参数和值
 // 浏览器中只能用req.query
 http://localhost:3000/api/search?price=x
