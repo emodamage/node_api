@@ -1060,6 +1060,74 @@ router.put('/dispatchGoods', (req, res) => {
   console.log('/dispatchGoods')
 })
 
+// 获取交流信息
+router.get('/connect', (req, res) => {
+  let sql = 'select * from connect order by rand() limit 4'
+  let arr = []
+  
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '获取交流列表信息',
+      status: 200,
+      result
+    })
+  })
+})
+
+// 搜索交流信息
+router.get('/searchConnect', (req, res) => {
+  let searchValue = req.query.searchValue
+  searchValue = `%${String(searchValue)}%`
+  let sql = 'select * from connect where question like ? order by id desc limit 4'
+  let arr = [searchValue]
+  
+  conMysql(sql, arr, result => {
+    res.send({
+      info: '搜索交流列表信息',
+      status: 200,
+      result
+    })
+  })
+})
+
+// 增加交流信息
+router.post('/addConnect', (req, res) => {
+  let username = req.body.form.username
+  let phone = req.body.form.phone
+  let question = req.body.form.question
+  let time = req.body.form.time
+  let tag = req.body.form.tag
+  tag = JSON.stringify(tag)
+  let place = req.body.form.place
+  
+  let isResolve = Math.random()
+  if (isResolve > 0.5) {
+    isResolve = 'true'
+  } else {
+    isResolve = 'false'
+  }
+
+  let sql = `insert ignore into connect values(null, ?, ?, ?, ?, ?, ?, ?)`
+  let arr = [username, phone, question, time, tag, isResolve, place]
+
+  conMysql(sql, arr, result => {
+    if (result.affectedRows > 0) {
+      res.send({
+        info: `用户${username}的求助信息注册成功`,
+        status: result.affectedRows,
+        result
+      })
+    }
+    else{
+      res.send({
+        info: '物资名已重复，请重新输入',
+        status: 0
+      })
+    }
+  })    
+  console.log('/addConnect') 
+})
+
 // 按price过滤物资列表 (price) 地址栏显示参数和值
 // 浏览器中只能用req.query
 http://localhost:3000/api/search?price=x
