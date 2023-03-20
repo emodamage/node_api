@@ -85,6 +85,7 @@ router.post('/register', (req, res) => {
       })
     }
   })
+  console.log('/register')
 })
 
 // 用户登录
@@ -121,14 +122,14 @@ router.post('/login', (req, res) => {
           {
             path: '/dispatch',
             name: 'dispatch',
-            label: '调度',
+            label: '入库审批',
             icon: 'setting',
             url: 'Dispatch/Dispatch.vue'
           },
           {
             path: '/dispatch/in',
             name: 'in',
-            label: '入库审批表',
+            label: '入库记录表',
             icon: 'setting',
             url: 'Dispatch/In.vue'
           },
@@ -226,7 +227,7 @@ router.post('/login', (req, res) => {
           {
             path: '/dispatch/out',
             name: 'out',
-            label: '出货记录表',
+            label: '出库记录表',
             icon: 'setting',
             url: 'Dispatch/Out.vue'
           }
@@ -301,9 +302,16 @@ router.post('/login', (req, res) => {
         icon: 'location',
         children: [
           {
+            path: '/dispatch',
+            name: 'dispatch',
+            label: '入库审批',
+            icon: 'setting',
+            url: 'Dispatch/Dispatch.vue'
+          },
+          {
             path: '/dispatch/in',
             name: 'in',
-            label: '入库审批表',
+            label: '入库记录表',
             icon: 'setting',
             url: 'Dispatch/In.vue'
           }
@@ -584,7 +592,6 @@ router.get('/goodsList', (req, res) => {
   size = Number(size)
 
   if (power == 1) {
-    // sql = `select * from manage_goods limit ${currentPage},${size}`
     sql1 = `select * from manage_goods order by time desc limit ?,?`
   } else if (power == 2) {
     sql1 = `select * from provide_goods order by time desc limit ?,?`
@@ -595,11 +602,11 @@ router.get('/goodsList', (req, res) => {
 
   let sql2 = ''
   if (power == 1) {
-      sql2 = `select count(*) as count from manage_goods`
+    sql2 = `select count(*) as count from manage_goods`
   } else if (power == 2) {
-      sql2 = `select count(*) as count from provide_goods`
+    sql2 = `select count(*) as count from provide_goods`
   } else {
-      sql2 =`select count(*) count from buyer_goods`
+    sql2 =`select count(*) count from buyer_goods`
   }
   let arr2 = []
 
@@ -634,11 +641,11 @@ router.post('/addGoods', (req, res) => {
 
   let sql = ``
   if (power == 1) {
-      sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+    sql = `insert ignore into manage_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
   } else if (power == 2) {
-      sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+    sql = `insert ignore into provide_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
   } else {
-      sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
+    sql = `insert ignore into buyer_goods values(null, ?, ?, ?, ?, ?, ?, ?, ?)`
   }
   let arr = [name, price, number, place, manufacturers, descs, time ,isDisinfect]
 
@@ -700,11 +707,11 @@ router.delete('/deleteGoods', (req, res) => {
   
   let sql =''
   if (power == 1) {
-      sql = `delete from manage_goods where name = ?`
+    sql = `delete from manage_goods where name = ?`
   } else if (power == 2) {
-      sql = `delete from provide_goods where name = ?`
+    sql = `delete from provide_goods where name = ?`
   } else {
-      sql = `delete from buyer_goods where name = ?`
+    sql = `delete from buyer_goods where name = ?`
   }
   let arr = [name]
 
@@ -731,23 +738,18 @@ router.get('/searchGoods', (req, res) => {
   searchValue = `%${String(searchValue)}%`
 
   let sql1 = ''
-  if (power == 1) {
-    sql1 = `select * from manage_goods where name like ? ORDER BY time desc limit ?, ?`
-  } else if (power == 2) {
-    sql1 = `select * from provide_goods where name like ? ORDER BY time desc limit ?, ?`
-  } else {
-    sql1 =`select * from buyer_goods where name like ? ORDER BY time desc limit ?, ?`
-  }
-  let arr1 = [searchValue, currentPage, size]
-
   let sql2 = ''
   if (power == 1) {
-      sql2 = `select count(*) as count from manage_goods where name like ?`
+    sql1 = `select * from manage_goods where name like ? ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from manage_goods where name like ?`
   } else if (power == 2) {
-      sql2 = `select count(*) as count from provide_goods where name like ?`
+    sql1 = `select * from provide_goods where name like ? ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from provide_goods where name like ?`
   } else {
-      sql2 =`select count(*) as count from buyer_goods where name like ?`
+    sql1 =`select * from buyer_goods where name like ? ORDER BY time desc limit ?, ?`
+    sql2 =`select count(*) as count from buyer_goods where name like ?`
   }
+  let arr1 = [searchValue, currentPage, size]
   let arr2 = [searchValue]
 
   let result = ''
@@ -822,7 +824,7 @@ router.get('/outList', (req, res) => {
   currentPage = Number(currentPage)
   size = Number(size)
 
-   let sql1 = `select * from goods_out where power = ? order by time desc limit ?,? `
+  let sql1 = `select * from goods_out where power = ? order by time desc limit ?,? `
   let arr1 = [power, currentPage, size]
 
   let sql2 = `select count(*) as count from goods_out where power = ?`
@@ -857,7 +859,6 @@ router.get('/searchGoodsOut', (req, res) => {
   let sql1 = `select * from goods_out where name like ? and power = ? ORDER BY time desc limit ?, ?`
   let arr1 = [searchValue, power, currentPage, size]
 
-
   let sql2 = `select count(*) as count from goods_out where name like ? and power = ?`
   let arr2 = [searchValue, power]
 
@@ -875,8 +876,80 @@ router.get('/searchGoodsOut', (req, res) => {
   console.log('/searchGoodsOut')
 })
 
-// 获取入库审批信息 (只有管理员和需求方)
+// 获取入库物资信息 (只有管理员和需求方)
 router.get('/inList', (req, res) => {
+  let power = req.query.power
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+ 
+  currentPage = Number(currentPage)
+  size = Number(size)
+
+  let sql1 = ''
+  let sql2 = ''
+  sql1 = `select * from goods_in where power = ? order by time desc limit ?,?`
+  sql2 = `select count(*) as count from goods_in where power = ?`
+  let arr1 = [power, currentPage, size]
+  let arr2 = [power]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    console.log('result1', result1)
+    result = result1
+  })
+  conMysql(sql2, arr2, result2 => {
+    console.log('result', result)
+    res.send({
+      info: '获取入库物资信息',
+      status: 200,
+      result,
+      count: result2[0].count
+    })
+  })
+  console.log('/inList')  
+})
+
+// 搜索入库物资信息 (只有管理员和需求方)
+router.get('/searchGoodsIn', (req, res) => {
+  let power = req.query.power
+  let searchValue = req.query.searchValue
+  let currentPage = req.query.currentPage ? req.query.currentPage : 0
+  let size = req.query.size ? req.query.size : 8
+  currentPage = currentPage * size
+  currentPage = Number(currentPage)
+  size = Number(size)
+  searchValue = `%${String(searchValue)}%`
+
+
+  let sql1 = ''
+  let sql2 = ''
+  if (power == 1) {
+    sql1 = `select * from goods_in where name like ? and power = ? ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from goods_in where name like ? and power = ?`
+  } else {
+    sql1 = `select * from goods_in where name like ? and power = ? ORDER BY time desc limit ?, ?`
+    sql2 = `select count(*) as count from goods_in where name like ? and power = ?`
+  }
+  let arr1 = [searchValue, power, currentPage, size]
+  let arr2 = [searchValue, power]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+      result = result1
+  }) 
+  conMysql(sql2, arr2, result2 => {
+    res.send({
+      info: '搜索入库物资信息',
+      result,
+      count: result2[0].count
+    })
+  }) 
+  console.log('/searchGoodsIn')
+})
+
+// 获取入库审批信息 (只有管理员和需求方)
+router.get('/dispatchList', (req, res) => {
   let power = req.query.power
   let currentPage = req.query.currentPage ? req.query.currentPage : 0
   let size = req.query.size ? req.query.size : 8
@@ -909,11 +982,11 @@ router.get('/inList', (req, res) => {
       count: result2[0].count
     })
   })  
-  console.log('/inList')
+  console.log('/dispatchList')
 })
 
 // 搜索入库审批信息
-router.get('/searchGoodsIn', (req, res) => {
+router.get('/searchGoodsDispatch', (req, res) => {
   let power = req.query.power
   let searchValue = req.query.searchValue
   let currentPage = req.query.currentPage ? req.query.currentPage : 0
@@ -946,11 +1019,11 @@ router.get('/searchGoodsIn', (req, res) => {
       count: result2[0].count
     })
   }) 
-  console.log('/searchGoodsIn')
+  console.log('/searchGoodsDispatch')
 })
 
 // 审批
-router.put('/approvalGoods', (req, res) => {
+router.put('/dispatchGoods', (req, res) => {
   let power = req.body.power
   let name = req.body.form.name
   let price = req.body.form.price
@@ -976,7 +1049,7 @@ router.put('/approvalGoods', (req, res) => {
   }).then(result1 => {
     conMysql(sql2, arr2, result2 => {
       res.send({
-        info: `对${name}进行了审批`,
+        info: `对${name}进行了${approval == 1 ? '审批中' : approval == 2 ? '通过' : '驳回'}`,
         // affectedRows为一说明影响了一行
         status: 200,
         result1,
@@ -984,7 +1057,7 @@ router.put('/approvalGoods', (req, res) => {
       })
     })   
   })   
-  console.log('/approvalGoods')
+  console.log('/dispatchGoods')
 })
 
 // 按price过滤物资列表 (price) 地址栏显示参数和值
