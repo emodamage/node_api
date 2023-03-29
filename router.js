@@ -1132,12 +1132,13 @@ router.post('/addConnect', (req, res) => {
 router.put('/updatePower', (req, res) => {
   let username = req.body.form.username
   let power = req.body.form.power
+  let time = req.body.form.time
 
   let sql1 = `update users set power = ? where username = ?`
   let arr1 = [power, username]
 
-  let sql2 = 'insert into permission values (null, ?, ?)'
-  let arr2 = [username, power]
+  let sql2 = 'insert into permission values (null, ?, ?, ?)'
+  let arr2 = [username, power, time]
 
   let result = ''
   conMysql(sql1, arr1, result1 => {
