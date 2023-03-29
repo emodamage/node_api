@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 20/03/2023 20:41:51
+ Date: 29/03/2023 21:01:32
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `buyer_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '是否消毒',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of buyer_goods
@@ -68,7 +68,7 @@ CREATE TABLE `connect`  (
   `isResolve` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '是否解决',
   `place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '求救地址',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 90 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of connect
@@ -81,6 +81,8 @@ INSERT INTO `connect` VALUES (85, '坤坤', '14578452356', '纳命来，小黑�
 INSERT INTO `connect` VALUES (86, 'sdg', '13578451245', 'asda', '2023-03-19', '[\"老人\"]', 'false', 'rsegf');
 INSERT INTO `connect` VALUES (87, 'tghj', '14578452356', 'reasw', '2023-03-17', '[\"老人\",\"dfg\"]', 'false', 'resfhb');
 INSERT INTO `connect` VALUES (88, 'dfg计划开工玻璃奶瓶高洪波i回娘家拍马屁【；哦【1', '14578451245', 'fgjf', '2023-03-16', '[\"wesd\",\"sdfhg\"]', 'true', '给v波u老板娘镂空伯格不平衡湖南平江剖宫i偶');
+INSERT INTO `connect` VALUES (89, '', '56', '', '', '[]', 'false', '');
+INSERT INTO `connect` VALUES (90, '', '', '', '', '[]', 'true', '');
 
 -- ----------------------------
 -- Table structure for goods_in
@@ -99,7 +101,7 @@ CREATE TABLE `goods_in`  (
   `approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '审批 1是审批中 2是驳回 3是通过',
   `power` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '由谁入库的 1是管理员 2是供应商 3是需求方',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of goods_in
@@ -130,6 +132,10 @@ INSERT INTO `goods_in` VALUES (47, '大色的屏幕', 17.00, 1, '把你家婆', 
 INSERT INTO `goods_in` VALUES (48, 'gdsfs', 12.00, 1, 'asdsa', 'hgfdh', 'sdg', '2023-03-20', '未消毒', '2', '1');
 INSERT INTO `goods_in` VALUES (49, 'gdsfs', 12.00, 1, 'asdsa', 'hgfdh', 'sdg', '2023-03-20', '未消毒', '3', '1');
 INSERT INTO `goods_in` VALUES (50, 'cgvjhb', 566.00, 1, 'j hkbnlm;', 'vbkjnl', 'ghjk', '2023-03-20', '未消毒', '3', '1');
+INSERT INTO `goods_in` VALUES (51, '你离开', 100.00, 1, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-25', '未消毒', '2', '3');
+INSERT INTO `goods_in` VALUES (52, '1jtgyhf', 121.00, 1, 'sdfs1', 'adsfas', 'gfjh', '2023-03-25', '已消毒', '3', '3');
+INSERT INTO `goods_in` VALUES (53, 'cgvjhb', 566.00, 1, 'j hkbnlm;', 'vbkjnl', 'ghjk', '2023-03-25', '未消毒', '2', '1');
+INSERT INTO `goods_in` VALUES (54, 'ibohjp', 143.00, 1, 'ctuyviohjp', 'cvhijo', 'hcgvjbk', '2023-03-25', '已消毒', '3', '1');
 
 -- ----------------------------
 -- Table structure for goods_out
@@ -148,7 +154,7 @@ CREATE TABLE `goods_out`  (
   `approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '审批 1是审批中 2是驳回 3是通过',
   `power` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '是谁出库的 1是管理员 2是供应商 3是需求方',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of goods_out
@@ -220,6 +226,19 @@ INSERT INTO `goods_out` VALUES (88, '布莱克', 1.00, 1, '不能离开', 'vhbjk
 INSERT INTO `goods_out` VALUES (89, '1jtgyhf', 121.00, 2, 'sdfs1', 'adsfas', 'gfjh', '2023-03-20', '已消毒', '1', '1');
 INSERT INTO `goods_out` VALUES (90, '大色的屏幕', 17.00, 1, '把你家婆', '会被弄IP就', '伯尼', '2023-03-20', '未消毒', '1', '1');
 INSERT INTO `goods_out` VALUES (91, '你离开', 100.00, 1, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-20', '未消毒', '1', '1');
+INSERT INTO `goods_out` VALUES (92, '1jtgyhf', 121.00, 1, 'sdfs1', 'adsfas', 'gfjh', '2023-03-25', '已消毒', '3', '1');
+INSERT INTO `goods_out` VALUES (93, '1jtgyhf', 121.00, 1, 'sdfs1', 'adsfas', 'gfjh', '2023-03-25', '已消毒', '1', '1');
+INSERT INTO `goods_out` VALUES (94, '大色的屏幕', 17.00, 1, '把你家婆', '会被弄IP就', '伯尼', '2023-03-25', '未消毒', '1', '1');
+INSERT INTO `goods_out` VALUES (95, '布莱克', 1.00, 1, '不能离开', 'vhbjknl;m111', '看不见你了', '2023-03-25', '已消毒', '1', '1');
+INSERT INTO `goods_out` VALUES (96, 'inoi', 123.00, 1, '能量开门', '你离开', '过hi精品', '2023-03-25', '已消毒', '1', '1');
+INSERT INTO `goods_out` VALUES (97, '你离开', 100.00, 1, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-25', '未消毒', '2', '1');
+INSERT INTO `goods_out` VALUES (98, 'gdsfs', 12.00, 1, 'asdsa', 'hgfdh', 'sdg', '2023-03-25', '未消毒', '1', '2');
+INSERT INTO `goods_out` VALUES (99, 'rfgn', 134.00, 1, 'bvcn', 'cvbn', 'tgfhjm', '2023-03-25', '未消毒', '1', '2');
+INSERT INTO `goods_out` VALUES (100, 'bunop1', 123.00, 1, 'bjnkl;', 'hjbkn', 'ibop1', '2023-03-25', '未消毒', '1', '2');
+INSERT INTO `goods_out` VALUES (101, 'cgvjhb', 566.00, 1, 'j hkbnlm;', 'vbkjnl', 'ghjk', '2023-03-25', '未消毒', '2', '2');
+INSERT INTO `goods_out` VALUES (102, 'ibohjp', 143.00, 1, 'ctuyviohjp', 'cvhijo', 'hcgvjbk', '2023-03-25', '已消毒', '3', '2');
+INSERT INTO `goods_out` VALUES (103, '隔离服', 100.50, 1, '浙江嘉兴2', '浙江嘉兴制造商2', '描述123', '2023-03-25', '未消毒', '1', '2');
+INSERT INTO `goods_out` VALUES (104, '1jtgyhf', 121.00, 1, 'sdfs1', 'adsfas', 'gfjh', '2023-03-27', '已消毒', '1', '1');
 
 -- ----------------------------
 -- Table structure for manage_goods
@@ -237,7 +256,7 @@ CREATE TABLE `manage_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '是否消毒',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1346 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1350 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of manage_goods
@@ -259,14 +278,33 @@ INSERT INTO `manage_goods` VALUES (1334, '41784', 1.00, 1, '894186416', '419641'
 INSERT INTO `manage_goods` VALUES (1335, '41961', 1.00, 1, '61615', '616', '4165', '2023-03-01', '未消毒');
 INSERT INTO `manage_goods` VALUES (1336, '手', 2.00, 45, '5132', '561', '615', '2023-03-01', '未消毒');
 INSERT INTO `manage_goods` VALUES (1337, '手机', 45.10, 20, '1621', '6546', '654', '2023-01-01', '已消毒');
-INSERT INTO `manage_goods` VALUES (1338, '你离开', 100.00, 12, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-06', '未消毒');
+INSERT INTO `manage_goods` VALUES (1338, '你离开', 100.00, 11, '吧那就快来', '哦伯爵考虑', '弄i离开', '2023-03-06', '未消毒');
 INSERT INTO `manage_goods` VALUES (1339, 'iuv不看好零', 1.00, 53, '便看见了', '不能', '偶伯爵考虑', '2023-03-08', '已消毒');
-INSERT INTO `manage_goods` VALUES (1341, '布莱克', 1.00, 167, '不能离开', 'vhbjknl;m111', '看不见你了', '2023-03-18', '已消毒');
-INSERT INTO `manage_goods` VALUES (1342, 'inoi', 123.00, 178, '能量开门', '你离开', '过hi精品', '2023-03-12', '已消毒');
+INSERT INTO `manage_goods` VALUES (1341, '布莱克', 1.00, 166, '不能离开', 'vhbjknl;m111', '看不见你了', '2023-03-18', '已消毒');
+INSERT INTO `manage_goods` VALUES (1342, 'inoi', 123.00, 177, '能量开门', '你离开', '过hi精品', '2023-03-12', '已消毒');
 INSERT INTO `manage_goods` VALUES (1343, '伯爵考虑你', 1.00, 1, '哦你离开', '不哦i能力', '伯努利', '2023-03-17', '未消毒');
 INSERT INTO `manage_goods` VALUES (1344, 'vbionlk', 15.00, 178, '看来你们', '那么', '你看了', '2023-03-05', '已消毒');
-INSERT INTO `manage_goods` VALUES (1345, '大色的屏幕', 17.00, 111, '把你家婆', '会被弄IP就', '伯尼', '2023-03-19', '未消毒');
-INSERT INTO `manage_goods` VALUES (1347, '1jtgyhf', 121.00, 1208, 'sdfs1', 'adsfas', 'gfjh', '2023-03-20', '已消毒');
+INSERT INTO `manage_goods` VALUES (1345, '大色的屏幕', 17.00, 110, '把你家婆', '会被弄IP就', '伯尼', '2023-03-19', '未消毒');
+INSERT INTO `manage_goods` VALUES (1347, '1jtgyhf', 121.00, 1205, 'sdfs1', 'adsfas', 'gfjh', '2023-03-20', '已消毒');
+INSERT INTO `manage_goods` VALUES (1350, 'dfh', 1.00, 1, 'dfgh', 'dfsg', 'dfg', '2023-03-27', '未消毒');
+
+-- ----------------------------
+-- Table structure for permission
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
+  `power` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户权限 1是管理员 2是供应商 3是需求方',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `username`(`username` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES (81, 'asdd', '3');
+INSERT INTO `permission` VALUES (82, 'vhkbjl', '2');
 
 -- ----------------------------
 -- Table structure for provide_goods
@@ -284,7 +322,7 @@ CREATE TABLE `provide_goods`  (
   `isDisinfect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '是否消毒',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of provide_goods
@@ -297,16 +335,16 @@ INSERT INTO `provide_goods` VALUES (5, '2防护镜', 20.50, 5, '浙江嘉兴2', 
 INSERT INTO `provide_goods` VALUES (6, '棉签', 2.50, 10, '浙江嘉兴2', '浙江嘉兴制造商2', '描述786', '2023-03-04', '已消毒');
 INSERT INTO `provide_goods` VALUES (7, '2采样管', 10.50, 9, '浙江嘉兴2', '浙江嘉兴制造商2', '描述753', '2023-03-02', '未消毒');
 INSERT INTO `provide_goods` VALUES (8, '测温枪', 50.50, 1, '浙江嘉兴2', '浙江嘉兴制造商2', '描述', '2023-03-01', '未消毒');
-INSERT INTO `provide_goods` VALUES (9, '隔离服', 100.50, 6, '浙江嘉兴2', '浙江嘉兴制造商2', '描述123', '2023-03-08', '未消毒');
+INSERT INTO `provide_goods` VALUES (9, '隔离服', 100.50, 5, '浙江嘉兴2', '浙江嘉兴制造商2', '描述123', '2023-03-08', '未消毒');
 INSERT INTO `provide_goods` VALUES (10, '2医用手套', 40.50, 2, '浙江嘉兴2', '浙江嘉兴制造商2', '描述', '2023-03-02', '未消毒');
 INSERT INTO `provide_goods` VALUES (11, '酒精', 10.50, 8, '浙江嘉兴2', '浙江嘉兴制造商2', '描述423', '2023-03-04', '未消毒');
 INSERT INTO `provide_goods` VALUES (19, '消毒水', 15.50, 49, '浙江嘉兴2', '浙江嘉兴制造商2', '描述7853', '2023-03-02', '未消毒');
 INSERT INTO `provide_goods` VALUES (20, '2消毒水', 15.50, 48, '浙江嘉兴2', '浙江嘉兴制造商2', '描述', '2023-03-01', '未消毒');
-INSERT INTO `provide_goods` VALUES (23, 'bunop1', 123.00, 563, 'bjnkl;', 'hjbkn', 'ibop1', '2023-03-19', '未消毒');
-INSERT INTO `provide_goods` VALUES (24, 'ibohjp', 143.00, 232, 'ctuyviohjp', 'cvhijo', 'hcgvjbk', '2023-03-12', '已消毒');
-INSERT INTO `provide_goods` VALUES (25, 'cgvjhb', 566.00, 564, 'j hkbnlm;', 'vbkjnl', 'ghjk', '2023-03-19', '未消毒');
-INSERT INTO `provide_goods` VALUES (26, 'gdsfs', 12.00, 108, 'asdsa', 'hgfdh', 'sdg', '2023-03-20', '未消毒');
-INSERT INTO `provide_goods` VALUES (27, 'rfgn', 134.00, 420, 'bvcn', 'cvbn', 'tgfhjm', '2023-03-20', '未消毒');
+INSERT INTO `provide_goods` VALUES (23, 'bunop1', 123.00, 562, 'bjnkl;', 'hjbkn', 'ibop1', '2023-03-19', '未消毒');
+INSERT INTO `provide_goods` VALUES (24, 'ibohjp', 143.00, 231, 'ctuyviohjp', 'cvhijo', 'hcgvjbk', '2023-03-12', '已消毒');
+INSERT INTO `provide_goods` VALUES (25, 'cgvjhb', 566.00, 563, 'j hkbnlm;', 'vbkjnl', 'ghjk', '2023-03-19', '未消毒');
+INSERT INTO `provide_goods` VALUES (26, 'gdsfs', 12.00, 107, 'asdsa', 'hgfdh', 'sdg', '2023-03-20', '未消毒');
+INSERT INTO `provide_goods` VALUES (27, 'rfgn', 134.00, 419, 'bvcn', 'cvbn', 'tgfhjm', '2023-03-20', '未消毒');
 
 -- ----------------------------
 -- Table structure for users
@@ -323,7 +361,7 @@ CREATE TABLE `users`  (
   `imgUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像地址',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
@@ -338,7 +376,8 @@ INSERT INTO `users` VALUES (70, 'admin2', 'admin2', '2', '13973216546', '县供�
 INSERT INTO `users` VALUES (71, 'admin3', 'admin3', '3', '13546842168', '县志愿者', '男', 'http://localhost:3000/api/image/default.jpg');
 INSERT INTO `users` VALUES (72, 'asdsa', 'asda', '3', '13798780248', 'gbhkkl;', '女', 'http://localhost:3000/api/image/default.jpg');
 INSERT INTO `users` VALUES (73, 'obno', 'uioi', '1', '13856783456', 'adsoihno', '男', 'http://localhost:3000/api/image/default.jpg');
-INSERT INTO `users` VALUES (75, 'vhkbjl', 'kblnk', '3', '13745673456', 'vjkbl', '男', 'http://localhost:3000/api/image/default.jpg');
-INSERT INTO `users` VALUES (77, 'asdd', 'bnlk1', '2', '15645678907', '不肯接纳了吗', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (75, 'vhkbjl', 'kblnk', '2', '13745673456', 'vjkbl', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (77, 'asdd', 'bnlk1', '3', '15645678907', '不肯接纳了吗', '男', 'http://localhost:3000/api/image/default.jpg');
+INSERT INTO `users` VALUES (81, 'admin', 'admin', '1', '14564345678', 'dfbdgd', '男', 'http://localhost:3000/api/image/default.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;

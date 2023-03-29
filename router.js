@@ -895,11 +895,11 @@ router.get('/inList', (req, res) => {
 
   let result = ''
   conMysql(sql1, arr1, result1 => {
-    console.log('result1', result1)
+    // console.log('result1', result1)
     result = result1
   })
   conMysql(sql2, arr2, result2 => {
-    console.log('result', result)
+    // console.log('result', result)
     res.send({
       info: '获取入库物资列表信息',
       status: 200,
@@ -1133,16 +1133,29 @@ router.put('/updatePower', (req, res) => {
   let username = req.body.form.username
   let power = req.body.form.power
 
-  let sql = `update users set power = ? where username = ?`
-  let arr = [power, username]
+  let sql1 = `update users set power = ? where username = ?`
+  let arr1 = [power, username]
 
-  conMysql(sql, arr, result => {
+  let sql2 = 'insert into permission values (null, ?, ?)'
+  let arr2 = [username, power]
+
+  let result = ''
+  conMysql(sql1, arr1, result1 => {
+    result = result1
+    // res.send({
+    //   info: `修改了用户${username}的权限`,
+    //   status: result.affectedRows,
+    //   result
+    // })
+  })
+  conMysql(sql2, arr2, result2 => {
     res.send({
       info: `修改了用户${username}的权限`,
-      status: result.affectedRows,
-      result
+      status: result2.affectedRows,
+      result1: result,
+      result2
     })
-  }) 
+  })
 })
 
 
