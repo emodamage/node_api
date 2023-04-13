@@ -1,0 +1,3 @@
+"id","username","password","power","phone","department","sex","imgUrl"
+62,466456,649684,2,13973034558,县供应商,男,http://localhost:3000/api/image/default.jpg
+70,admin2,admin2,2,13973216546,县供应商,女,http://localhost:3000/api/image/admin2.jpg

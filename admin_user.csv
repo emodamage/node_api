@@ -1,0 +1,8 @@
+"id","username","password","power","phone","department","sex","imgUrl"
+60,1234,24214,1,13973034458,县存储局,男,http://localhost:3000/api/image/default.jpg
+65,adsas,asda,1,13973034558,县存储局,男,http://localhost:3000/api/image/default.jpg
+66,asda,dasd,1,13973034558,县存储局,女,http://localhost:3000/api/image/default.jpg
+69,admin1,admin1,1,13973034558,县存储局4132,男,http://localhost:3000/api/image/admin1.jpg
+73,obno,uioi,1,13856783456,adsoihno,男,http://localhost:3000/api/image/default.jpg
+75,vhkbjl,kblnk,1,13745673456,vjkbl,男,http://localhost:3000/api/image/default.jpg
+81,admin,admin,1,14564345678,dfbdgd,男,http://localhost:3000/api/image/default.jpg
